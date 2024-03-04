@@ -1,5 +1,7 @@
 import pygame
 import sys
+import scripts.entities as Atom
+import scripts.utils as utils
 
 # Constants
 WIDTH, HEIGHT = 800, 600
@@ -27,16 +29,24 @@ class Game:
     def __init__(self):
         pygame.init()
     
-        self.screen = pygame.display.set_mode(WINDOW_SIZE)
         pygame.display.set_caption("Sokobond")
+
         self.clock = pygame.time.Clock()
 
         self.movement = [0, 0, 0, 0]
-        self.player_x, self.player_y = 120, 120
+
+        self.assets = {
+            "player": utils.load_image("base_sprite.png")
+        }
+
+        self.player = Atom(self, self.player_x, self.player_y, "player", 1)
+
+        #self.screen = pygame.display.set_mode(WINDOW_SIZE)
+        #self.player_x, self.player_y = 120, 120
+
 
     def run(self):
         while True:
-
             self.move()
             self.draw()
 
@@ -47,47 +57,24 @@ class Game:
                 else:
                     self.event_handler(event)
                     
-            self.clock.tick(FPS)
-    
-    def move(self):
-        
-        new_px = self.player_x + (self.movement[1] + self.movement[0]) * 4
-        new_py = self.player_y + (self.movement[3] + self.movement[2]) * 4
-
-        player_rect = pygame.Rect(new_px, new_py, block_size, block_size)
-        for wall in level_layout:
-            wall_rect = pygame.Rect(*wall)
-            print(player_rect.colliderect(wall_rect))
-            if (player_rect.colliderect(wall_rect)):
-                return    
-        self.player_x = new_px
-        self.player_y = new_py
-                
-        
+            self.clock.tick(FPS)    
 
     def event_handler(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                self.movement[0] = -1
-            elif event.key == pygame.K_RIGHT:
-                self.movement[1] = 1
-            elif event.key == pygame.K_UP:
-                self.movement[2] = -1
+            if event.key == pygame.K_UP:
+                self.movement[0] = -32
             elif event.key == pygame.K_DOWN:
-                self.movement[3] = 1
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
-                self.movement[0] = 0
+                self.movement[1] = 32
+            elif event.key == pygame.K_LEFT:
+                self.movement[2] = -32
             elif event.key == pygame.K_RIGHT:
-                self.movement[1] = 0
-            elif event.key == pygame.K_UP:
-                self.movement[2] = 0
-            elif event.key == pygame.K_DOWN:
-                self.movement[3] = 0
+                self.movement[3] = 32
 
     def draw(self):
         self.screen.fill(WHITE)
-        pygame.draw.rect(self.screen, RED, (self.player_x, self.player_y, block_size, block_size))
+
+        self.player.update(self.movement)
+        self.player.render(self.screen)
 
         for wall in level_layout:
             pygame.draw.rect(self.screen, BLACK, wall)
