@@ -38,7 +38,7 @@ Each solution can be considered as a sequence of actions that lead to the final 
 - **Name**: Move
 - **Preconditions**: 
     - The controlled atom/molecule can only move to any of the four cardinal directions (up, down, left, right).
-    - The controlled atom/molecule must be ajdacent to an empty cell in the direction of the move or an atom with no available bonding connections.
+    - The controlled atom/molecule must be ajdacent to an empty cell in the direction of the move or an atom with no available bonding connections and an empty cell adjacent to it in the direction of the move.
 - **Effect**:
     - The controlled atom/molecule moves to the new cell.
     - If the move results in the controlled atom/molecule being adjacent to another atom and the bonding limit of both atoms is not exceeded, a bond is formed.
