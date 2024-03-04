@@ -53,4 +53,12 @@ Each solution can be considered as a sequence of actions that lead to the final 
 - **Depth-First Search (DFS)**: This algorithm is used to explore the game's state space by going as deep as possible along each branch before backtracking. In the context of Sokobond, a "branch" can be thought of as a sequence of moves. So, DFS first considers one possible sequence of moves to its fullest extent (until it either reaches a solution or can't go any further), then it backtracks and explores the next sequence. The algorithm starts with the initial layout of atoms on the grid (the initial state). It then generates all possible layouts that can be reached by moving the controlled atom/molecule in any of the four cardinal directions (up, down, left, right). DFS continues this process, generating new states and adding them to a stack. It always removes and explores states from the top of the stack. The algorithm stops when it finds a state where all atoms are merged into one molecule and all bonding connections are utilized. The sequence of moves that led to this state is a solution to the game.
 
 
-##
+## Implementation Work Already Carried Out
+
+- **Game Engine**: The game engine is implemented using the Pygame library. The game engine is responsible for rendering the game, handling user input, and updating the game state. The game engine is implemented in the `sokobond.py` file.
+- **Game Loop**: The game loop is implemented in the `sokobond.py` file. The game loop is responsible for running the game, controlling the FPS, updating the game state, and rendering the game.
+- **Data Structures**: 
+  - The `Atom` class is implemented in the `entities.py` file. The `Atom` class represents an atom in the game. It has attributes such as position and bonding connections. The `Atom` class also has methods to update the atom and bond with other atoms.
+  - The `Game` class is implemented in the `game.py` file. The `Game` class represents the game state, and contains methods to update the game state and check for game over conditions. It also contains the initial state of the game.
+- **Rendering**: The rendering of the game is implemented in the `sokobond.py` file. The game is rendered using the Pygame library. The game window is created, and the game state is rendered to the window. We also have already created the base_sprite for the atoms. 
+- **User Input**: The user input is handled in the `sokobond.py` file. The game listens for user input and updates the game state accordingly. The user can control the atom/molecule using the arrow keys.
