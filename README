@@ -10,6 +10,18 @@ In Sokobond, you control atoms on a grid with a clear objective: navigate them a
 
 To form a molecule, simply move your atom/molecule to a spot adjacent to another atom with available bonding connections. Both atoms will then lose one bonding connection and combine. The game is completed when all atoms are merged into one molecule and all bonding connections are utilized.
 
+## Relevant Links
+
+- [Steam Page](https://store.steampowered.com/app/290260/Sokobond/)  
+- [Different implementation in JavaScript](https://github.com/vpelss/Sokobond_JS)  
+- AI UC books:
+
+  - Stuart Russell, Peter Norvig; Artificial intelligence. ISBN: 978-0-13-207148-2
+  - Richard S. Sutton; Reinforcement learning. ISBN: 978-0-262-03924-6
+  - Stuart Russel, Peter Norvig; Artificial Intelligence: A modern Approach.
+
+- [Pygame Documentation](https://www.pygame.org/docs/)
+
 ## Problem Formulation
 
 ### State Representation
@@ -41,3 +53,4 @@ Each solution can be considered as a sequence of actions that lead to the final 
 - **Depth-First Search (DFS)**: This algorithm is used to explore the game's state space by going as deep as possible along each branch before backtracking. In the context of Sokobond, a "branch" can be thought of as a sequence of moves. So, DFS first considers one possible sequence of moves to its fullest extent (until it either reaches a solution or can't go any further), then it backtracks and explores the next sequence. The algorithm starts with the initial layout of atoms on the grid (the initial state). It then generates all possible layouts that can be reached by moving the controlled atom/molecule in any of the four cardinal directions (up, down, left, right). DFS continues this process, generating new states and adding them to a stack. It always removes and explores states from the top of the stack. The algorithm stops when it finds a state where all atoms are merged into one molecule and all bonding connections are utilized. The sequence of moves that led to this state is a solution to the game.
 
 
+##
