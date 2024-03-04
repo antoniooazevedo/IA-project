@@ -10,17 +10,34 @@ In Sokobond, you control atoms on a grid with a clear objective: navigate them a
 
 To form a molecule, simply move your atom/molecule to a spot adjacent to another atom with available bonding connections. Both atoms will then lose one bonding connection and combine. The game is completed when all atoms are merged into one molecule and all bonding connections are utilized.
 
-## Results/Findings
-Presentation of the results/findings of the research or project.
+## Problem Formulation
 
-## Discussion
-Interpretation and analysis of the results/findings.
+### State Representation
+Each state can be represented as the current configuration of atoms on the grid, including their positions and bonding connections.
 
-## Conclusion
-Summary of the report, findings, and any recommendations or next steps.
+### Initial State
+The initial state is the configuration of the atoms on the grid at the start of the game, their bonding connections and which atom is the player controlling.
 
-## References
-List of sources cited in the report.
+### Objective test
+Each solution can be considered as a sequence of actions that lead to the final state where all atoms are merged into one molecule and all bonding connections are utilized.
 
-## Appendices
-Any additional information, charts, or graphs to support the report.
+### Operators
+#### Move Operator
+- **Name**: Move
+- **Preconditions**: 
+    - The controlled atom/molecule can only move to any of the four cardinal directions (up, down, left, right).
+    - The controlled atom/molecule must be ajdacent to an empty cell in the direction of the move or an atom with no available bonding connections.
+- **Effect**:
+    - The controlled atom/molecule moves to the new cell.
+    - If the move results in the controlled atom/molecule being adjacent to another atom and the bonding limit of both atoms is not exceeded, a bond is formed.
+    - If moved to a cell with another atom and there is no possible bonding connection, both the atom/molecule controlled and the atom in the cell will move to the next cell in the direction of the move - pushing the atom in the cell.
+- **Cost**: The cost of this operator is 1.
+
+## Algorithms and Heuristics
+
+### Algorithms
+- **Breadth-First Search (BFS)**: This algorithm is used to find the shortest sequence of moves that leads to the formation of the final molecule. BFS explores all the possible moves (states) at the current level before moving on to the next level. In the context of Sokobond, a "level" can be thought of as a move. So, BFS first considers all states that can be reached in one move, then all states that can be reached in two moves, and so on. The algorithm starts with the initial layout of atoms on the grid (the initial state). It then generates all possible layouts that can be reached by moving the controlled atom/molecule in any of the four cardinal directions (up, down, left, right). BFS continues this process, generating new states and adding them to a queue. It always removes and explores states from the front of the queue (i.e., the states that can be reached with the fewest moves). The algorithm stops when it finds a state where all atoms are merged into one molecule and all bonding connections are utilized. The sequence of moves that led to this state is the solution to the game. BFS is guaranteed to find the shortest solution if one exists, but it can be slow and memory-intensive if there are many possible states to explore.
+
+- **Depth-First Search (DFS)**: This algorithm is used to explore the game's state space by going as deep as possible along each branch before backtracking. In the context of Sokobond, a "branch" can be thought of as a sequence of moves. So, DFS first considers one possible sequence of moves to its fullest extent (until it either reaches a solution or can't go any further), then it backtracks and explores the next sequence. The algorithm starts with the initial layout of atoms on the grid (the initial state). It then generates all possible layouts that can be reached by moving the controlled atom/molecule in any of the four cardinal directions (up, down, left, right). DFS continues this process, generating new states and adding them to a stack. It always removes and explores states from the top of the stack. The algorithm stops when it finds a state where all atoms are merged into one molecule and all bonding connections are utilized. The sequence of moves that led to this state is a solution to the game.
+
+
