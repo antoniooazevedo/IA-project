@@ -1,31 +1,34 @@
-import pygame
+import pygame as pg
 
 class Atom:
-    def __init__(self, game, x, y, type, connections=1):
+    def __init__(self, game, x, y, type, n_connections=1):
         self.game = game
         self.x = x
         self.y = y
         self.type = type
-        self.n_connections = connections
-        self.n_connections = [0,0,0,0] #up, down, left, right
+        self.n_connections = n_connections
+        self.connections = [0,0,0,0] #up, down, left, right
     
-    def update(self, movement=[0, 0, 0, 0]):
+    def update(self):
 
-        new_x = self.x + (movement[1] + movement[0])
-        new_y = self.y + (movement[3] + movement[2])
+        new_x = self.x + (self.game.movement[2] + self.game.movement[3])
+        new_y = self.y + (self.game.movement[0] + self.game.movement[1])
 
-        self.movement = [0, 0, 0, 0]
-
-        player_rect = pygame.Rect(new_x, new_y, self.game.block_size, self.game.block_size)
-        for wall in self.game.level_layout:
-            wall_rect = pygame.Rect(*wall)
-            print(player_rect.colliderect(wall_rect))
-            if (player_rect.colliderect(wall_rect)):
-                return    
-        self.y = new_x
-        self.x = new_y  
+        self.game.movement = [0, 0, 0, 0]
+        
+        self.y = new_y
+        self.x = new_x  
         
 
     def render(self, screen):
         screen.blit(self.game.assets['player'], [self.x, self.y])
         
+class Wall:
+    def __init__(self, game, x, y):
+        self.game = game
+        self.x = x
+        self.y = y
+        self.type = "wall"
+        
+    def render(self, screen):
+        screen.blit(self.game.assets['wall'], [self.x, self.y])

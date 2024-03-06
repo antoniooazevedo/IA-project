@@ -1,84 +1,49 @@
-import pygame
+import pygame as pg
 import sys
-import scripts.entities as Atom
+from scripts.level import Level
 import scripts.utils as utils
 
 # Constants
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 1920, 1080
 WINDOW_SIZE = (WIDTH, HEIGHT)
 FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-block_size = 40
+YELLOW = (255, 255, 0)
 
 # Global variables
-player_x = 120
-player_y = 120
-level_layout = [
-    (80, 80, 600, block_size),  # Top wall
-    (80, 80, block_size, 400),   # Left wall
-    (680, 80, block_size, 400),   # Right wall
-    (80, 480, 640, block_size)    # Bottom wall
-]
+
 
 class Game: 
     
     def __init__(self):
-        pygame.init()
+        pg.init()
     
-        pygame.display.set_caption("Sokobond")
+        #self.ia = _ 
+        self.level = "lvl1.txt"
+    
+        pg.display.set_caption("Sokobond")
+        self.screen = pg.display.set_mode(WINDOW_SIZE)
 
-        self.clock = pygame.time.Clock()
-
-        self.movement = [0, 0, 0, 0]
+        self.clock = pg.time.Clock()
 
         self.assets = {
-            "player": utils.load_image("base_sprite.png")
+            "player-h": utils.load_image("h-player.png"),
+            "player-o": utils.load_image("o-player.png"),
+            "player-n": utils.load_image("n-player.png"),
+            "player-c": utils.load_image("c-player.png"),
+            "wall": utils.load_image("wall.png"),
+            "atom-h": utils.load_image("h-field.png"),
+            "atom-o": utils.load_image("o-field.png"),
+            "atom-n": utils.load_image("n-field.png"),
+            "atom-c": utils.load_image("c-field.png")
         }
 
-        self.player = Atom(self, self.player_x, self.player_y, "player", 1)
-
-        #self.screen = pygame.display.set_mode(WINDOW_SIZE)
-        #self.player_x, self.player_y = 120, 120
-
-
     def run(self):
+        
+        level = Level(self, self.level)
+        
         while True:
-            self.move()
-            self.draw()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pg.quit()
-                    sys.exit()
-                else:
-                    self.event_handler(event)
-                    
-            self.clock.tick(FPS)    
-
-    def event_handler(self, event):
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                self.movement[0] = -32
-            elif event.key == pygame.K_DOWN:
-                self.movement[1] = 32
-            elif event.key == pygame.K_LEFT:
-                self.movement[2] = -32
-            elif event.key == pygame.K_RIGHT:
-                self.movement[3] = 32
-
-    def draw(self):
-        self.screen.fill(WHITE)
-
-        self.player.update(self.movement)
-        self.player.render(self.screen)
-
-        for wall in level_layout:
-            pygame.draw.rect(self.screen, BLACK, wall)
-
-        pygame.display.flip()
+            level.run()
 
 Game().run();
