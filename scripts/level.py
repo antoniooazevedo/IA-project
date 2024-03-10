@@ -9,7 +9,8 @@ class Level:
     def __init__(self, game, level):
         
         self.game = game
-        (walls, player, entities) = utils.scrape_level(level)
+        (walls, player, entities) = utils.scrape_level(level, game)
+        print("Walls: {} \n Player: {} \n Entities: {}".format(walls, player, entities))
         self.walls = walls
         self.entities = entities
         self.player = Player(player, self.game)
