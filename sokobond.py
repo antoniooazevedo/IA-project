@@ -7,9 +7,6 @@ import scripts.utils as utils
 WIDTH, HEIGHT = 800, 600
 WINDOW_SIZE = (WIDTH, HEIGHT)
 
-# Global variables
-
-
 class Game: 
     
     def __init__(self):

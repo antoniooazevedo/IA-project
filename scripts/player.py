@@ -18,12 +18,12 @@ class Player:
     
     def event_handler(self, event):
         if event.key == pg.K_UP:
-            self.game.movement[0] = -60
+            self.game.movement[0] = -1
         elif event.key == pg.K_DOWN:
-            self.game.movement[1] = 60
+            self.game.movement[1] = 1 
         elif event.key == pg.K_LEFT:
-            self.game.movement[2] = -60
+            self.game.movement[2] = -1
         elif event.key == pg.K_RIGHT:
-            self.game.movement[3] = 60
+            self.game.movement[3] = 1 
             
         

@@ -6,13 +6,10 @@ from scripts.entities import Atom
 from scripts.player import Player
 
 class Level: 
+
     def __init__(self, game, level):
-        
         self.game = game
-        (walls, player, entities) = utils.scrape_level(level, game)
-        self.walls = walls
-        self.entities = entities
-        self.player = Player(player, self.game)
+        (self.matrix, self.player) = utils.scrape_level(level, game)
         
     def run(self):
         
@@ -30,11 +27,16 @@ class Level:
                         self.player.event_handler(event)
                     
             self.game.clock.tick(self.game.fps)
+
+        pg.quit()
+        sys.exit()
             
     def draw(self):
         self.game.screen.fill((255,255,255))
-        for wall in self.walls:
-            wall.render(self.game.screen)
-        for entity in self.entities:
-            entity.render(self.game.screen)
+
+        for row in self.matrix:
+            for element in row:
+                if element != None:
+                    element.render(self.game.screen)
+
         pg.display.flip()
