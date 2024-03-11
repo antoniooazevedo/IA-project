@@ -38,8 +38,28 @@ class Game:
             "atom-n": utils.load_image("n-field.png"),
             "atom-c": utils.load_image("c-field.png")
         }
+        
+        self.n_connections = {
+            "H": 1,
+            "O": 2,
+            "N": 3,
+            "C": 4
+        } 
 
     def run(self):
+        
+        # Menu interface 
+        ## Play
+        ## Quit
+        
+        ## Play
+        ### Play as human
+        ### Choose IA
+        
+        ### Levels
+        #### 192749127491 levels
+        #### Back
+        
         
         level = Level(self, self.level)
         
