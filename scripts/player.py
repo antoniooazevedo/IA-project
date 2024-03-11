@@ -10,33 +10,43 @@ class Player:
         self.molecule = [self.atom]
 
     def make_possible_connections(self, matrix):
-        for atom in self.molecule:
+        
+        for atom in self.molecule:    
+            
             if sum(atom.connections) >= atom.n_connections:
                 continue  
 
-            # Check above
-            if isinstance(matrix[atom.y - 1][atom.x], Atom) and matrix[atom.y - 1][atom.x] not in self.molecule:
-                atom.connections[0] = 1
-                matrix[atom.y - 1][atom.x].connections[1] = 1
-                self.molecule.append(matrix[atom.y - 1][atom.x])
+            else:# Check above
+                if isinstance(matrix[atom.y - 1][atom.x], Atom) and matrix[atom.y - 1][atom.x] not in self.molecule:
+                    atom.connections[0] = 1
+                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
+                    print("Molecule: ", self.molecule)
+                    matrix[atom.y - 1][atom.x].connections[1] = 1
+                    self.molecule.append(matrix[atom.y - 1][atom.x])
 
-            # Check below
-            if isinstance(matrix[atom.y + 1][atom.x], Atom) and matrix[atom.y + 1][atom.x] not in self.molecule:
-                atom.connections[1] = 1
-                matrix[atom.y + 1][atom.x].connections[0] = 1
-                self.molecule.append(matrix[atom.y + 1][atom.x])
+                # Check below
+                if isinstance(matrix[atom.y + 1][atom.x], Atom) and matrix[atom.y + 1][atom.x] not in self.molecule:
+                    atom.connections[1] = 1
+                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
+                    print("Molecule: ", self.molecule)
+                    matrix[atom.y + 1][atom.x].connections[0] = 1
+                    self.molecule.append(matrix[atom.y + 1][atom.x])
 
-            # Check left
-            if isinstance(matrix[atom.y][atom.x - 1], Atom) and matrix[atom.y][atom.x - 1] not in self.molecule:
-                atom.connections[2] = 1
-                matrix[atom.y][atom.x - 1].connections[3] = 1
-                self.molecule.append(matrix[atom.y][atom.x - 1])
+                # Check left
+                if isinstance(matrix[atom.y][atom.x - 1], Atom) and matrix[atom.y][atom.x - 1] not in self.molecule:
+                    atom.connections[2] = 1
+                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
+                    print("Molecule: ", self.molecule)
+                    matrix[atom.y][atom.x - 1].connections[3] = 1
+                    self.molecule.append(matrix[atom.y][atom.x - 1])
 
-            # Check right
-            if isinstance(matrix[atom.y][atom.x + 1], Atom) and matrix[atom.y][atom.x + 1] not in self.molecule:
-                atom.connections[3] = 1
-                matrix[atom.y][atom.x + 1].connections[2] = 1
-                self.molecule.append(matrix[atom.y][atom.x + 1])
+                # Check right
+                if isinstance(matrix[atom.y][atom.x + 1], Atom) and matrix[atom.y][atom.x + 1] not in self.molecule:
+                    atom.connections[3] = 1
+                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
+                    print("Molecule: ", self.molecule)
+                    matrix[atom.y][atom.x + 1].connections[2] = 1
+                    self.molecule.append(matrix[atom.y][atom.x + 1])
 
 
     def move_molecule(self):

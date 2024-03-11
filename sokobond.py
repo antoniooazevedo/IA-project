@@ -13,7 +13,7 @@ class Game:
         pg.init()
     
         #self.ia = _ 
-        self.levelName = "lvl3.txt"
+        self.levelName = "lvl1.txt"
         self.level = None
     
         pg.display.set_caption("Sokobond")
@@ -61,9 +61,7 @@ class Game:
         #### Back
         
         
-        self.level = Level(self, self.levelName)
-        
-        while True:
-            self.level.run()
+        self.level = Level(self, self.levelName)        
+        self.level.run()
 
 Game().run();
