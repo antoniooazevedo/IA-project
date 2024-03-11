@@ -8,7 +8,6 @@ class Atom:
         self.type = type
         self.n_connections = self.game.n_connections[self.type]
         self.connections = [0,0,0,0] #up, down, left, right
-        self.connected_atoms = []
 
     def check_move(self, molecule):
         space = self.game.level.matrix[self.y + (self.game.movement[0] + self.game.movement[1])][self.x + (self.game.movement[2] + self.game.movement[3])]
