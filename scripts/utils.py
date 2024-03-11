@@ -20,7 +20,7 @@ def scrape_level(level, game):
     with open('assets/levels/' + level, 'r') as file:
         lines = file.read().split('\n')
         for line in lines:
-            x = 0
+            x = 130
             components = line.split(',')
             for component in components:
                 if component == ' ':
