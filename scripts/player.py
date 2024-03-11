@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-from scripts.entities import Atom, Wall
+from scripts.entities import Atom, Wall, Connection
 
 
 class Player: 
@@ -13,39 +13,47 @@ class Player:
         
         for atom in self.molecule:    
             
-            if sum(atom.connections) >= atom.n_connections:
-                continue  
-
-            else:# Check above
+            if (len(atom.connections) < atom.n_connections):# Check above
                 if isinstance(matrix[atom.y - 1][atom.x], Atom) and matrix[atom.y - 1][atom.x] not in self.molecule:
-                    atom.connections[0] = 1
-                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
-                    print("Molecule: ", self.molecule)
-                    matrix[atom.y - 1][atom.x].connections[1] = 1
+                    connection_up = Connection(self.game, atom.x, atom.y, "up")
+                    atom.connections.append(connection_up)
+                    
+                    connection_down = Connection(self.game, atom.x-1, atom.y, "down")
+                    matrix[atom.y - 1][atom.x].connections.append(connection_down)
+                    
                     self.molecule.append(matrix[atom.y - 1][atom.x])
 
                 # Check below
                 if isinstance(matrix[atom.y + 1][atom.x], Atom) and matrix[atom.y + 1][atom.x] not in self.molecule:
-                    atom.connections[1] = 1
-                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
-                    print("Molecule: ", self.molecule)
-                    matrix[atom.y + 1][atom.x].connections[0] = 1
+                    
+                    connection_down = Connection(self.game, atom.x, atom.y, "down")
+                    atom.connections.append(connection_down)
+                    
+                    connection_up = Connection(self.game, atom.x, atom.y+1, "up")
+                    matrix[atom.y + 1][atom.x].connections.append(connection_up)
+                    
                     self.molecule.append(matrix[atom.y + 1][atom.x])
 
                 # Check left
                 if isinstance(matrix[atom.y][atom.x - 1], Atom) and matrix[atom.y][atom.x - 1] not in self.molecule:
-                    atom.connections[2] = 1
-                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
-                    print("Molecule: ", self.molecule)
-                    matrix[atom.y][atom.x - 1].connections[3] = 1
+ 
+                    connection_left = Connection(self.game, atom.x, atom.y, "left")
+                    atom.connections.append(connection_left)
+                    
+                    connection_right = Connection(self.game, atom.x-1, atom.y, "right")
+                    matrix[atom.y][atom.x - 1].connections.append(connection_right)
+ 
                     self.molecule.append(matrix[atom.y][atom.x - 1])
 
                 # Check right
                 if isinstance(matrix[atom.y][atom.x + 1], Atom) and matrix[atom.y][atom.x + 1] not in self.molecule:
-                    atom.connections[3] = 1
-                    print("Sum: ", sum(atom.connections), "N: ", atom.n_connections)
-                    print("Molecule: ", self.molecule)
-                    matrix[atom.y][atom.x + 1].connections[2] = 1
+
+                    connection_right = Connection(self.game, atom.x, atom.y, "right")
+                    atom.connections.append(connection_right)
+                    
+                    connection_left = Connection(self.game, atom.x+1, atom.y, "left")
+                    matrix[atom.y][atom.x + 1].connections.append(connection_left)
+                    
                     self.molecule.append(matrix[atom.y][atom.x + 1])
 
 
@@ -57,12 +65,13 @@ class Player:
                 break
             
         if can_move:
+            print("Matrix:", self.game.level.matrix, "\n")
             for atom in self.molecule:
                 atom.update()
     
     def update(self):
-        self.make_possible_connections(self.game.level.matrix)
         self.move_molecule()
+        self.make_possible_connections(self.game.level.matrix)
         self.game.movement = [0,0,0,0]
     
     def draw(self):

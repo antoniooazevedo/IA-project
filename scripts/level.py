@@ -18,6 +18,7 @@ class Level:
         while not End_Loop:
             
             End_Loop = self.check_win()
+            End_Loop = False
             self.player.update()
             self.draw()
  
@@ -48,6 +49,6 @@ class Level:
         for row in self.matrix:
             for element in row:
                 if isinstance(element, Atom):
-                    if ( sum(element.connections) < element.n_connections ):
+                    if ( len(element.connections) < element.n_connections ):
                         return False
         return True
