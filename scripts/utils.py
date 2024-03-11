@@ -1,5 +1,6 @@
 import pygame
 from scripts.entities import Atom, Wall
+from scripts.player import Player
 
 BASE_IMG_PATH = 'assets/images/'
 
@@ -10,30 +11,30 @@ def load_image(path):
     return img2
 
 def scrape_level(level, game):
-    walls = []
-    entities = []
+    matrix = []
     player = None
 
-    x = 0
-    y = 0
+    row = 0
+    col = 0
 
     with open('assets/levels/' + level, 'r') as file:
         lines = file.read().split('\n')
         for line in lines:
-            x = 130
+            col = 0
+            m_line = []
             components = line.split(',')
             for component in components:
                 if component == ' ':
-                    x += 60
-                    continue
+                    m_line.append(None)
                 elif component == '#':
-                    walls.append(Wall(game, x, y))
+                    m_line.append(Wall(game, col, row)) 
                 elif component.isupper():
-                    entities.append(Atom(game, x, y, component))
+                    m_line.append(Atom(game, col, row, component))
                 elif component.islower():
-                    player = Atom(game, x, y, component)
-                    entities.append(player)
-                x += 60
-            y += 60
+                    player = Atom(game, col, row, component)
+                    m_line.append(player)
+                col += 1 
+            row += 1 
+            matrix.append(m_line)
 
-    return (walls, player, entities)
+    return (matrix, Player(player, game))

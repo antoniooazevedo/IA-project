@@ -7,16 +7,14 @@ import scripts.utils as utils
 WIDTH, HEIGHT = 800, 600
 WINDOW_SIZE = (WIDTH, HEIGHT)
 
-# Global variables
-
-
 class Game: 
     
     def __init__(self):
         pg.init()
     
         #self.ia = _ 
-        self.level = "lvl3.txt"
+        self.levelName = "lvl1.txt"
+        self.level = None
     
         pg.display.set_caption("Sokobond")
         self.screen = pg.display.set_mode(WINDOW_SIZE)
@@ -71,7 +69,7 @@ class Game:
         #### Back
         
         
-        level = Level(self, self.level)
-        level.run()
+        self.level = Level(self, self.levelName)        
+        self.level.run()
 
 Game().run();
