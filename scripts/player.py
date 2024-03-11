@@ -1,7 +1,6 @@
 import pygame as pg
 import sys
 
-from scripts.entities import Atom
 
 class Player: 
     def __init__(self, atom, game):

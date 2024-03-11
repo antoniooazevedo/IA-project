@@ -28,22 +28,10 @@ def scrape_level(level, game):
                     continue
                 elif component == '#':
                     walls.append(Wall(game, x, y))
-                elif component == 'H':
-                    entities.append(Atom(game, x, y, 'H', 1))
-                elif component == 'O':
-                    entities.append(Atom(game, x, y, 'O', 2))
-                elif component == 'N':
-                    entities.append(Atom(game, x, y, 'N', 3))
-                elif component == 'C':
-                    entities.append(Atom(game, x, y, 'C', 4))
-                elif component == 'HP':
-                    player = Atom(game, x, y, 'H', 1)
-                elif component == 'OP':
-                    player = Atom(game, x, y, 'O', 2)
-                elif component == 'NP':
-                    player = Atom(game, x, y, 'N', 3)
-                elif component == 'CP':
-                    player = Atom(game, x, y, 'C', 4)
+                elif len(component) == 1:
+                    entities.append(Atom(game, x, y, component))
+                elif len(component) == 2:
+                    player = Atom(game, x, y, component[0])
                 x += 60
             y += 60
 

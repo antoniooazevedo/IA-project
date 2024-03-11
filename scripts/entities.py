@@ -1,13 +1,14 @@
 import pygame as pg
 
 class Atom:
-    def __init__(self, game, x, y, type, n_connections=1):
+    def __init__(self, game, x, y, type):
         self.game = game
         self.x = x
         self.y = y
         self.type = type
-        self.n_connections = n_connections
+        self.n_connections = self.game.n_connections[self.type]
         self.connections = [0,0,0,0] #up, down, left, right
+        
     
     def update(self):
 
