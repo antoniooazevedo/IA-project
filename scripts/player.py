@@ -11,6 +11,8 @@ class Player:
     def update(self):
         for atom in self.atoms:
             atom.update()
+            
+        self.game.movement = [0,0,0,0]
     
     def draw(self):
         for atom in self.atoms:
