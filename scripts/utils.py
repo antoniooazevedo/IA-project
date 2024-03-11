@@ -5,8 +5,9 @@ BASE_IMG_PATH = 'assets/images/'
 
 def load_image(path):
     img = pygame.image.load(BASE_IMG_PATH + path).convert()
-    img.set_colorkey((255, 255, 255)) # might change to Black 
-    return img
+    img2 = pygame.transform.scale(img, (60, 60))
+    img2.set_colorkey((255, 255, 255)) # might change to Black 
+    return img2
 
 def scrape_level(level, game):
     walls = []
@@ -17,8 +18,7 @@ def scrape_level(level, game):
     y = 0
 
     with open('assets/levels/' + level, 'r') as file:
-        readbuffer = file.read()
-        lines = readbuffer.split('\n')
+        lines = file.read().split('\n')
         for line in lines:
             x = 0
             components = line.split(',')
@@ -31,7 +31,8 @@ def scrape_level(level, game):
                 elif component.isupper():
                     entities.append(Atom(game, x, y, component))
                 elif component.islower():
-                    player = Atom(game, x, y, component[0])
+                    player = Atom(game, x, y, component)
+                    entities.append(player)
                 x += 60
             y += 60
 

@@ -10,7 +10,6 @@ class Level:
         
         self.game = game
         (walls, player, entities) = utils.scrape_level(level, game)
-        print("Walls: {} \n Player: {} \n Entities: {}".format(walls, player, entities))
         self.walls = walls
         self.entities = entities
         self.player = Player(player, self.game)
@@ -30,4 +29,12 @@ class Level:
                     else:
                         self.player.event_handler(event)
                     
-            self.game.clock.tick(self.game.FPS)
+            self.game.clock.tick(self.game.fps)
+            
+    def draw(self):
+        self.game.screen.fill((255,255,255))
+        for wall in self.walls:
+            wall.render(self.game.screen)
+        for entity in self.entities:
+            entity.render(self.game.screen)
+        pg.display.flip()

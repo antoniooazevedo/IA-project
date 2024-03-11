@@ -4,12 +4,8 @@ from scripts.level import Level
 import scripts.utils as utils
 
 # Constants
-WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 800, 600
 WINDOW_SIZE = (WIDTH, HEIGHT)
-FPS = 60
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-YELLOW = (255, 255, 0)
 
 # Global variables
 
@@ -26,24 +22,30 @@ class Game:
         self.screen = pg.display.set_mode(WINDOW_SIZE)
 
         self.clock = pg.time.Clock()
+        self.fps = 60;
+        self.movement = [0, 0, 0, 0]
 
         self.assets = {
-            "player-h": utils.load_image("h-player.png"),
-            "player-o": utils.load_image("o-player.png"),
-            "player-n": utils.load_image("n-player.png"),
-            "player-c": utils.load_image("c-player.png"),
+            "h": utils.load_image("h-player.png"),
+            "o": utils.load_image("o-player.png"),
+            "n": utils.load_image("n-player.png"),
+            "c": utils.load_image("c-player.png"),
             "wall": utils.load_image("wall.png"),
-            "atom-h": utils.load_image("h-field.png"),
-            "atom-o": utils.load_image("o-field.png"),
-            "atom-n": utils.load_image("n-field.png"),
-            "atom-c": utils.load_image("c-field.png")
+            "H": utils.load_image("h-field.png"),
+            "O": utils.load_image("o-field.png"),
+            "N": utils.load_image("n-field.png"),
+            "C": utils.load_image("c-field.png")
         }
         
         self.n_connections = {
             "H": 1,
             "O": 2,
             "N": 3,
-            "C": 4
+            "C": 4,
+            "h": 1,
+            "o": 2,
+            "n": 3,
+            "c": 4
         } 
 
     def run(self):

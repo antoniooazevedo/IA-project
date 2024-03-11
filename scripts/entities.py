@@ -22,7 +22,7 @@ class Atom:
         
 
     def render(self, screen):
-        screen.blit(self.game.assets['player'], [self.x, self.y])
+        screen.blit(self.game.assets[self.type], [self.x, self.y])
         
 class Wall:
     def __init__(self, game, x, y):
