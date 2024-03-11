@@ -72,8 +72,6 @@ class Game:
         
         
         level = Level(self, self.level)
-        
-        while True:
-            level.run()
+        level.run()
 
 Game().run();
