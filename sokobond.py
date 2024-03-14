@@ -32,7 +32,15 @@ class Game:
             "H": utils.load_image("h-field.png"),
             "O": utils.load_image("o-field.png"),
             "N": utils.load_image("n-field.png"),
-            "C": utils.load_image("c-field.png")
+            "C": utils.load_image("c-field.png"),
+            "up": utils.load_image("con-up.png"),
+            "down": utils.load_image("con-down.png"),
+            "left": utils.load_image("con-left.png"),
+            "right": utils.load_image("con-right.png"),
+            "1": utils.load_image("one-con.png"),
+            "2": utils.load_image("two-con.png"),
+            "3": utils.load_image("three-con.png"),
+            "4": utils.load_image("four-con.png")
         }
         
         self.n_connections = {
