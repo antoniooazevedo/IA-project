@@ -2,7 +2,7 @@ import sys
 import pygame as pg
 
 import scripts.utils as utils
-from scripts.entities import Atom
+from scripts.entities import Atom, Connection
 from scripts.player import Player
 
 class Level: 
@@ -20,6 +20,7 @@ class Level:
             End_Loop = self.check_win()
             End_Loop = False
             self.player.update()
+            self.make_possible_connections(self.matrix)
             self.draw()
  
             for event in pg.event.get():
@@ -33,7 +34,45 @@ class Level:
 
         pg.quit()
         sys.exit()
+        
+    def make_possible_connections(self, matrix):
+        
+        for line in matrix:
             
+            for atom in line:    
+                
+                if ((isinstance(atom, Atom)) and (len(atom.connections) < atom.n_connections)):
+                    
+                    # Check below
+                    if isinstance(matrix[atom.y + 1][atom.x], Atom):
+                                                
+                        below_atom = matrix[atom.y + 1][atom.x]
+                        
+                        if (len(below_atom.connections) < below_atom.n_connections):
+                                                    
+                            connection_down = Connection(self.game, atom.x, atom.y, "down")
+                            atom.connections.append(connection_down)
+                            
+                            connection_up = Connection(self.game, atom.x, atom.y+1, "up")
+                            below_atom.connections.append(connection_up)
+
+                            self.player.make_connection(atom, below_atom)                            
+
+                    # Check right
+                    if isinstance(matrix[atom.y][atom.x + 1], Atom):
+
+                        right_atom = matrix[atom.y][atom.x + 1]
+                        
+                        if (len(right_atom.connections) < right_atom.n_connections):
+                                
+                            connection_right = Connection(self.game, atom.x, atom.y, "right")
+                            atom.connections.append(connection_right)
+                            
+                            connection_left = Connection(self.game, atom.x+1, atom.y, "left")
+                            right_atom.connections.append(connection_left)
+                            
+                            self.player.make_connection(atom, right_atom)
+
     def draw(self):
         self.game.screen.fill((255,255,255))
 
@@ -52,3 +91,4 @@ class Level:
                     if ( len(element.connections) < element.n_connections ):
                         return False
         return True
+    

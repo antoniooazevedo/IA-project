@@ -13,7 +13,7 @@ class Game:
         pg.init()
     
         #self.ia = _ 
-        self.levelName = "lvl1.txt"
+        self.levelName = "lvl2.txt"
         self.level = None
     
         pg.display.set_caption("Sokobond")

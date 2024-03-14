@@ -29,10 +29,8 @@ class Atom:
         self.x = new_x
         self.y = new_y
         
-        
         for connection in self.connections:
             connection.update() 
-        
     
     def update(self):
         self.move()
@@ -43,6 +41,16 @@ class Atom:
             screen.blit(self.game.assets[str(self.n_connections - len(self.connections))], [self.x * 60 + 130, self.y * 60])
         for connection in self.connections:
             connection.render(screen)
+            
+    def get_connection(self, connection):
+        if connection.direction == "up":
+            return self.game.level.matrix[self.y - 1][self.x]
+        elif connection.direction == "down":
+            return self.game.level.matrix[self.y + 1][self.x]
+        elif connection.direction == "left":
+            return self.game.level.matrix[self.y][self.x - 1]
+        elif connection.direction == "right":
+            return self.game.level.matrix[self.y][self.x + 1]
         
         
 class Wall:
