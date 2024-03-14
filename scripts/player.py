@@ -11,13 +11,17 @@ class Player:
 
     def move_molecule(self):
         can_move = True
+        near_atoms = []
         for atom in self.molecule:
-            if not atom.check_move(self.molecule):
-                can_move = False
-                break
+            (can_move, additional_atoms) = atom.check_move(self.molecule)
+            near_atoms += additional_atoms
+            if not can_move:
+                break   
             
         if can_move:
             for atom in self.molecule:
+                atom.update()
+            for atom in near_atoms:
                 atom.update()
     
     def update(self):

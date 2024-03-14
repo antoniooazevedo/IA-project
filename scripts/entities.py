@@ -12,15 +12,17 @@ class Atom:
     def check_move(self, molecule):
         space = self.game.level.matrix[self.y + (self.game.movement[0] + self.game.movement[1])][self.x + (self.game.movement[2] + self.game.movement[3])]
         if space == None:
-            return True
+            return (True, [])
         elif space in molecule:
-            return True
+            return (True, [])
         elif isinstance(space, Atom):
-            if ((len(self.connections) >= self.n_connections) and (space.check_move(molecule))):
-                space.update()
-                return True
-        return False
+            if (len(self.connections) >= self.n_connections):
+                (can_move, atoms) = space.check_move(molecule)
+                return (can_move, [space] + atoms)
+        return (False, [])
         
+    #def check_move_outside_molecule(self, atom)    
+    
     def move(self):
         new_x = self.x + (self.game.movement[2] + self.game.movement[3])
         new_y = self.y + (self.game.movement[0] + self.game.movement[1])
