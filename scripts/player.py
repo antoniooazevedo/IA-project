@@ -1,13 +1,14 @@
 import pygame as pg
 import sys
 from scripts.entities import Atom, Wall, Connection
+import copy
 
 
 class Player: 
     def __init__(self, atom, game):
         self.atom = atom
-        self.game = game
         self.molecule = [self.atom]
+        self.game = game
 
     def make_possible_connections(self, matrix):
         
@@ -65,7 +66,7 @@ class Player:
                 break
             
         if can_move:
-            print("Matrix:", self.game.level.matrix, "\n")
+            #print("Matrix:", self.game.level.matrix, "\n")
             for atom in self.molecule:
                 atom.update()
     
@@ -86,5 +87,9 @@ class Player:
             self.game.movement[2] = -1
         elif event.key == pg.K_RIGHT:
             self.game.movement[3] = 1 
+    
+    def __str__(self):
+        molecule_str = ', '.join([str(atom) for atom in self.molecule])
+        return f"Player(Atom: {self.atom}, Molecule: [{molecule_str}])"
             
         

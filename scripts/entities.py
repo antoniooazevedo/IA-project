@@ -43,6 +43,9 @@ class Atom:
             screen.blit(self.game.assets[str(self.n_connections - len(self.connections))], [self.x * 60 + 130, self.y * 60])
         for connection in self.connections:
             connection.render(screen)
+
+    def __str__(self):
+        return f"Atom({self.x}, {self.y}, {self.type}, {self.n_connections})"
         
         
 class Wall:
@@ -53,7 +56,10 @@ class Wall:
         self.type = "wall"
         
     def render(self, screen):
-        screen.blit(self.game.assets['wall'], [self.x * 60 + 130, self.y * 60])        
+        screen.blit(self.game.assets['wall'], [self.x * 60 + 130, self.y * 60])    
+
+    def __str__(self):
+        return f"Wall({self.x}, {self.y})"   
 
 class Connection:
     def __init__(self, game, x, y, direction):
@@ -71,3 +77,6 @@ class Connection:
         new_y = self.y + (self.game.movement[0] + self.game.movement[1])
         self.y = new_y
         self.x = new_x  
+
+    def __str__(self):
+        return f"Connection({self.x}, {self.y}, {self.direction})"

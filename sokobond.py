@@ -1,7 +1,10 @@
 import pygame as pg
 import sys
 from scripts.level import Level
+from scripts.state import SokobondState
 import scripts.utils as utils
+import scripts.TreeNode as tn
+
 
 # Constants
 WIDTH, HEIGHT = 800, 600
@@ -54,6 +57,8 @@ class Game:
             "c": 4
         } 
 
+
+
     def run(self):
         
         # Menu interface 
@@ -69,7 +74,18 @@ class Game:
         #### Back
         
         
-        self.level = Level(self, self.levelName)        
+        self.level = Level(self, self.levelName) 
+        state = SokobondState(self.level.matrix, self.level.player)
+        state = state.move_right()
+        state = state.move_up()
+        if state.goal_state():
+            print("Goal state reached")
+        else:
+            state.printState()
+            print("Goal state not reached")
+
         self.level.run()
+
+    
 
 Game().run();

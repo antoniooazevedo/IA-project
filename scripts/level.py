@@ -4,6 +4,7 @@ import pygame as pg
 import scripts.utils as utils
 from scripts.entities import Atom
 from scripts.player import Player
+from scripts.state import SokobondState
 
 class Level: 
 
@@ -30,6 +31,9 @@ class Level:
                         self.player.event_handler(event)
                     
             self.game.clock.tick(self.game.fps)
+
+            self.game.state = SokobondState(self.matrix, self.player)
+            #self.game.state.printState()
 
         pg.quit()
         sys.exit()
