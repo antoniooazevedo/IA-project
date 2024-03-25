@@ -9,6 +9,12 @@ class Connection_Model:
         self.direction = direction
         
     def __str__ (self):
-        return f'Connection_Model: x={self.x}, y={self.y}, direction={self.direction}'
+        if self.direction == 'up' or self.direction == 'down':
+            return '|'
+        
+        elif self.direction == 'left' or self.direction == 'right':
+            return '-'
+
+    
                  
         

@@ -15,7 +15,7 @@ class Game:
         pg.init()
     
         #self.ia = _ 
-        self.levelName = "lvl2.txt"
+        self.levelName = "lvl1.txt"
     
         pg.display.set_caption("Sokobond")
         self.screen = pg.display.set_mode(WINDOW_SIZE)
@@ -49,6 +49,7 @@ class Game:
             
             self.level_controller.update()
             self.level_view.draw()
+            pg.display.update()
             
             self.clock.tick(self.fps)
         
