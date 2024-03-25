@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-import scripts.utils as utils
+import utils as utils
 from MVC.Model.Entities.atom_model import Atom_Model
 
 class Atom_View:

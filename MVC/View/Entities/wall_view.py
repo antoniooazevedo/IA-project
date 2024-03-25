@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-import scripts.utils as utils
+import utils as utils
 from MVC.Model.Entities.wall_model import Wall_Model
 
 class Wall_View:

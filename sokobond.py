@@ -3,7 +3,7 @@ import sys
 from MVC.Model.level_model import Level_Model
 from MVC.View.level_view import Level_View
 from MVC.Controller.level_controller import Level_Controller
-import scripts.utils as utils
+import utils as utils
 
 # Constants
 WIDTH, HEIGHT = 800, 600
@@ -47,7 +47,6 @@ class Game:
             
             self.level_controller.handle_events()
             
-            self.level_controller.update()
             self.level_view.draw()
             pg.display.update()
             
