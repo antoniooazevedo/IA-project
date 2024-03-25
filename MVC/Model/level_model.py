@@ -16,6 +16,18 @@ n_connections = {
         "n": 3,
         "c": 4
         }
+
+image_paths = {
+    "H": 'assets/images/h-field.png',
+    "O": 'assets/images/o-field.png',
+    "N": 'assets/images/n-field.png',
+    "C": 'assets/images/c-field.png',
+    "h": 'assets/images/h-player.png',
+    "o": 'assets/images/o-player.png',
+    "n": 'assets/images/n-player.png',
+    "c": 'assets/images/c-player.png',
+    "#": 'assets/images/wall.png'
+}
         
 BASE_LVL_PATH = 'assets/levels/' 
 
@@ -44,18 +56,19 @@ class Level_Model:
                         m_line.append(None)
 
                     elif component == '#':
-                        m_line.append(Wall_Model(col, row)) 
+                        m_line.append(Wall_Model(col, row, image_paths[component])) 
                         
                     elif component.isupper():
                         n = n_connections[component] 
-                        atom = Atom_Model(col, row, component, n)
+                        atom = Atom_Model(col, row, component, n, False, image_paths[component])
                         molecule = Molecule_Model([atom], [])
+                        
                         m_line.append(molecule)
                         self.molecules.append(molecule)
 
                     elif component.islower():
                         n = n_connections[component]
-                        atom = Atom_Model(col, row, component, n, True)
+                        atom = Atom_Model(col, row, component, n, True, image_paths[component])
                         molecule = Molecule_Model([atom], [], True)
                         m_line.append(molecule)
                         self.molecules.append(molecule)
@@ -65,6 +78,14 @@ class Level_Model:
                 matrix.append(m_line)
         
         self.matrix = matrix
+
+    def get_player_molecule(self):
+        for molecule in self.molecules:
+            for atom in molecule.atoms:
+                if atom.isPlayer:
+                    return molecule
+        return None
+
     
     def connect_molecules(self):
         

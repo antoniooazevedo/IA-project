@@ -2,6 +2,7 @@ import pygame as pg
 import sys
 
 from MVC.Model.level_model import Level_Model
+from MVC.Controller.Entities.molecule_controller import Molecule_Controller
 
 class Level_Controller:
     
@@ -19,21 +20,11 @@ class Level_Controller:
                 return False
 
     def handle_events(self):
-        
-        for event in pg.event.get():
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    pg.quit()
-                    sys.exit()
-                if event.key == pg.K_UP:
-                    self.model.movement[0] = -1
-                elif event.key == pg.K_DOWN:
-                    self.model.movement[1] = 1 
-                elif event.key == pg.K_LEFT:
-                    self.model.movement[2] = -1
-                elif event.key == pg.K_RIGHT:
-                    self.model.movement[3] = 1 
-        
+        player_molecule = self.model.get_player_molecule()
+        if player_molecule is not None:
+            player_molecule_controller = Molecule_Controller(player_molecule, self.model.matrix)
+            player_molecule_controller.handle_events()
+
     def update(self):
         pass
         
