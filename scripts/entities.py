@@ -12,15 +12,17 @@ class Atom:
     def check_move(self, molecule):
         space = self.game.level.matrix[self.y + (self.game.movement[0] + self.game.movement[1])][self.x + (self.game.movement[2] + self.game.movement[3])]
         if space == None:
-            return True
+            return (True, [])
         elif space in molecule:
-            return True
+            return (True, [])
         elif isinstance(space, Atom):
-            if ((len(self.connections) >= self.n_connections) and (space.check_move(molecule))):
-                space.update()
-                return True
-        return False
+            if (len(self.connections) >= self.n_connections):
+                (can_move, atoms) = space.check_move(molecule)
+                return (can_move, [space] + atoms)
+        return (False, [])
         
+    #def check_move_outside_molecule(self, atom)    
+    
     def move(self):
         new_x = self.x + (self.game.movement[2] + self.game.movement[3])
         new_y = self.y + (self.game.movement[0] + self.game.movement[1])
@@ -29,10 +31,8 @@ class Atom:
         self.x = new_x
         self.y = new_y
         
-        
         for connection in self.connections:
             connection.update() 
-        
     
     def update(self):
         self.move()
@@ -43,6 +43,16 @@ class Atom:
             screen.blit(self.game.assets[str(self.n_connections - len(self.connections))], [self.x * 60 + 130, self.y * 60])
         for connection in self.connections:
             connection.render(screen)
+            
+    def get_connection(self, connection):
+        if connection.direction == "up":
+            return self.game.level.matrix[self.y - 1][self.x]
+        elif connection.direction == "down":
+            return self.game.level.matrix[self.y + 1][self.x]
+        elif connection.direction == "left":
+            return self.game.level.matrix[self.y][self.x - 1]
+        elif connection.direction == "right":
+            return self.game.level.matrix[self.y][self.x + 1]
         
         
 class Wall:

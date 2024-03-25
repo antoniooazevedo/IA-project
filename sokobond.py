@@ -1,6 +1,8 @@
 import pygame as pg
 import sys
-from scripts.level import Level
+from MVC.Model.level_model import Level_Model
+from MVC.View.level_view import Level_View
+from MVC.Controller.level_controller import Level_Controller
 import scripts.utils as utils
 
 # Constants
@@ -13,46 +15,13 @@ class Game:
         pg.init()
     
         #self.ia = _ 
-        self.levelName = "lvl1.txt"
-        self.level = None
+        self.levelName = "lvl2.txt"
     
         pg.display.set_caption("Sokobond")
         self.screen = pg.display.set_mode(WINDOW_SIZE)
 
         self.clock = pg.time.Clock()
         self.fps = 60;
-        self.movement = [0, 0, 0, 0]
-
-        self.assets = {
-            "h": utils.load_image("h-player.png"),
-            "o": utils.load_image("o-player.png"),
-            "n": utils.load_image("n-player.png"),
-            "c": utils.load_image("c-player.png"),
-            "wall": utils.load_image("wall.png"),
-            "H": utils.load_image("h-field.png"),
-            "O": utils.load_image("o-field.png"),
-            "N": utils.load_image("n-field.png"),
-            "C": utils.load_image("c-field.png"),
-            "up": utils.load_image("con-up.png"),
-            "down": utils.load_image("con-down.png"),
-            "left": utils.load_image("con-left.png"),
-            "right": utils.load_image("con-right.png"),
-            "1": utils.load_image("one-con.png"),
-            "2": utils.load_image("two-con.png"),
-            "3": utils.load_image("three-con.png"),
-            "4": utils.load_image("four-con.png")
-        }
-        
-        self.n_connections = {
-            "H": 1,
-            "O": 2,
-            "N": 3,
-            "C": 4,
-            "h": 1,
-            "o": 2,
-            "n": 3,
-            "c": 4
-        } 
 
     def run(self):
         
@@ -69,7 +38,21 @@ class Game:
         #### Back
         
         
-        self.level = Level(self, self.levelName)        
-        self.level.run()
+        self.level_model = Level_Model(self.levelName)
+        self.level_view = Level_View(self.level_model, self.screen)
+        self.level_controller = Level_Controller(self.level_model)     
+        
+        
+        while (not self.level_controller.check_win()):
+            
+            self.level_controller.handle_events()
+            
+            self.level_controller.update()
+            self.level_view.draw()
+            
+            self.clock.tick(self.fps)
+        
+        pg.quit()
+        sys.exit()
 
 Game().run();

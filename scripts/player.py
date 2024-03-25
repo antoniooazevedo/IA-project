@@ -9,69 +9,23 @@ class Player:
         self.game = game
         self.molecule = [self.atom]
 
-    def make_possible_connections(self, matrix):
-        
-        for atom in self.molecule:    
-            
-            if (len(atom.connections) < atom.n_connections):# Check above
-                if isinstance(matrix[atom.y - 1][atom.x], Atom) and matrix[atom.y - 1][atom.x] not in self.molecule:
-                    connection_up = Connection(self.game, atom.x, atom.y, "up")
-                    atom.connections.append(connection_up)
-                    
-                    connection_down = Connection(self.game, atom.x-1, atom.y, "down")
-                    matrix[atom.y - 1][atom.x].connections.append(connection_down)
-                    
-                    self.molecule.append(matrix[atom.y - 1][atom.x])
-
-                # Check below
-                if isinstance(matrix[atom.y + 1][atom.x], Atom) and matrix[atom.y + 1][atom.x] not in self.molecule:
-                    
-                    connection_down = Connection(self.game, atom.x, atom.y, "down")
-                    atom.connections.append(connection_down)
-                    
-                    connection_up = Connection(self.game, atom.x, atom.y+1, "up")
-                    matrix[atom.y + 1][atom.x].connections.append(connection_up)
-                    
-                    self.molecule.append(matrix[atom.y + 1][atom.x])
-
-                # Check left
-                if isinstance(matrix[atom.y][atom.x - 1], Atom) and matrix[atom.y][atom.x - 1] not in self.molecule:
- 
-                    connection_left = Connection(self.game, atom.x, atom.y, "left")
-                    atom.connections.append(connection_left)
-                    
-                    connection_right = Connection(self.game, atom.x-1, atom.y, "right")
-                    matrix[atom.y][atom.x - 1].connections.append(connection_right)
- 
-                    self.molecule.append(matrix[atom.y][atom.x - 1])
-
-                # Check right
-                if isinstance(matrix[atom.y][atom.x + 1], Atom) and matrix[atom.y][atom.x + 1] not in self.molecule:
-
-                    connection_right = Connection(self.game, atom.x, atom.y, "right")
-                    atom.connections.append(connection_right)
-                    
-                    connection_left = Connection(self.game, atom.x+1, atom.y, "left")
-                    matrix[atom.y][atom.x + 1].connections.append(connection_left)
-                    
-                    self.molecule.append(matrix[atom.y][atom.x + 1])
-
-
     def move_molecule(self):
         can_move = True
+        near_atoms = []
         for atom in self.molecule:
-            if not atom.check_move(self.molecule):
-                can_move = False
-                break
+            (can_move, additional_atoms) = atom.check_move(self.molecule)
+            near_atoms += additional_atoms
+            if not can_move:
+                break   
             
         if can_move:
-            print("Matrix:", self.game.level.matrix, "\n")
             for atom in self.molecule:
+                atom.update()
+            for atom in near_atoms:
                 atom.update()
     
     def update(self):
         self.move_molecule()
-        self.make_possible_connections(self.game.level.matrix)
         self.game.movement = [0,0,0,0]
     
     def draw(self):
@@ -87,4 +41,18 @@ class Player:
         elif event.key == pg.K_RIGHT:
             self.game.movement[3] = 1 
             
-        
+    def make_connection(self, atom1, atom2):
+        if ((self.inMolecule(atom2)) and (not self.inMolecule(atom1))):
+            self.molecule.append(atom1)
+            for connection in atom1.connections:
+                if (not self.inMolecule(atom1.get_connection(connection))):
+                    self.molecule.append(atom1.get_connection(connection))
+            
+        elif ((self.inMolecule(atom1)) and (not self.inMolecule(atom2))):
+            self.molecule.append(atom2)
+            for connection in atom2.connections:
+                if (not self.inMolecule(atom2.get_connection(connection))):
+                    self.molecule.append(atom2.get_connection(connection))
+            
+    def inMolecule(self, atom):
+        return atom in self.molecule
