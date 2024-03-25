@@ -12,3 +12,6 @@ class Molecule_Model:
             else:
                 connections = []
         self.molecule[atom] = connections
+
+    def get_atom(self):
+        return list(self.molecule.keys())[0]

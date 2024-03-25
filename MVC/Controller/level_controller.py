@@ -20,10 +20,22 @@ class Level_Controller:
                 return False
 
     def handle_events(self):
-        player_molecule = self.model.get_player_molecule()
-        if player_molecule is not None:
-            player_molecule_controller = Molecule_Controller(player_molecule, self.model.matrix)
-            player_molecule_controller.handle_events()
+        playerMolecule = self.model.get_player_molecule()
+        molecule_controller = Molecule_Controller(playerMolecule, self.model.matrix)
+
+        for event in pg.event.get():
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    pg.quit()
+                    sys.exit()
+                if event.key == pg.K_UP:
+                    molecule_controller.move('up')
+                elif event.key == pg.K_DOWN:
+                    molecule_controller.move('down')
+                elif event.key == pg.K_LEFT:
+                    molecule_controller.move('left')
+                elif event.key == pg.K_RIGHT:
+                    molecule_controller.move('right')
 
     def update(self):
         pass

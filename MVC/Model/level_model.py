@@ -81,11 +81,9 @@ class Level_Model:
 
     def get_player_molecule(self):
         for molecule in self.molecules:
-            for atom in molecule.atoms:
-                if atom.isPlayer:
-                    return molecule
+            if molecule.isPlayer:
+                return molecule
         return None
-
     
     def connect_molecules(self):
         

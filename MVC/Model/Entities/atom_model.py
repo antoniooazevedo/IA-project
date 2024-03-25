@@ -14,4 +14,6 @@ class Atom_Model:
     def __str__(self):
         return self.element
     
-
+    def get_position(self):
+        return self.x, self.y
+    

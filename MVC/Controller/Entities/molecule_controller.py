@@ -9,18 +9,20 @@ class Molecule_Controller:
         self.model = molecule_Model
         self.matrix = matrix
 
-    def handle_events(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                sys.exit()
-            elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_UP:
-                    self.move('up')
-                elif event.key == pg.K_DOWN:
-                    self.move('down')
-                elif event.key == pg.K_LEFT:
-                    self.move('left')
-                elif event.key == pg.K_RIGHT:
-                    self.move('right')
+    def move(self, direction):
+        atomController = Atom_Controller(self.model.get_atom(), self.matrix)
+        if direction == 'up':
+            atomController.move('up')
+        elif direction == 'down':
+            atomController.move('down')
+        elif direction == 'left':
+            atomController.move('left')
+        elif direction == 'right':
+            atomController.move('right')
+        else:
+            raise ValueError('Invalid direction')
+        
 
+
+    
         
