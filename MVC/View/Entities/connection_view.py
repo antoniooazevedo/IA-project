@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-import scripts.utils as utils
+import utils as utils
 from MVC.Model.Entities.connection_model import Connection_Model
 
 class Connection_View:

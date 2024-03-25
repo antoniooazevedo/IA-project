@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 
-import scripts.utils as utils
+import utils as utils
 from MVC.Model.level_model import Level_Model
 from MVC.Model.Entities.atom_model import Atom_Model
 from MVC.Model.Entities.molecule_model import Molecule_Model
