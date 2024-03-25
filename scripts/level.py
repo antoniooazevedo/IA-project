@@ -9,7 +9,7 @@ class Level:
 
     def __init__(self, game, level):
         self.game = game
-        (self.matrix, self.player) = utils.scrape_level(level, game)
+        self.matrix = utils.scrape_level(level, game)
         
     def run(self):
         
