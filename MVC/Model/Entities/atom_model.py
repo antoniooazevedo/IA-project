@@ -17,3 +17,12 @@ class Atom_Model:
     def get_position(self):
         return self.x, self.y
     
+    def get_atom(self):
+        return self
+
+    def get_electrons(self):
+        return self.electrons
+    
+    def set_electrons(self, electrons):
+        self.electrons = electrons
+    

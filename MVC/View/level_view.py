@@ -6,37 +6,38 @@ from MVC.Model.level_model import Level_Model
 from MVC.Model.Entities.atom_model import Atom_Model
 from MVC.Model.Entities.molecule_model import Molecule_Model
 from MVC.Model.Entities.wall_model import Wall_Model
+from MVC.View.Entities.atom_view import Atom_View
+from MVC.View.Entities.molecule_view import Molecule_View
+from MVC.View.Entities.wall_view import Wall_View
+
 
 
 class Level_View:
     def __init__(self, level_model: Level_Model, screen):
         self.model = level_model
         self.screen = screen
-        self.assets = self.load_assets()
+        self.load_assets()
         
     def load_assets(self):
-        assets = {}
-        for molecule in self.model.molecules:
-            for atom in molecule.molecule.keys():
-                if atom.image_path not in assets:
-                    image = pg.image.load(atom.image_path)
-                    scaled_image = pg.transform.scale(image, (60, 60))
-                    assets[atom.image_path] = scaled_image
-                
-                electron_image_path = self.get_electron_image_path(atom)
-                if electron_image_path not in assets:
-                    electron_image = pg.image.load(electron_image_path).convert()
-                    electron_image.set_colorkey((255, 255, 255))
-                    scaled_electron_image = pg.transform.scale(electron_image, (60, 60))
-                    assets[electron_image_path] = scaled_electron_image
-
-        for row in self.model.matrix:
-            for entity in row:
-                if isinstance(entity, Wall_Model) and entity.image_path not in assets:
-                    image = pg.image.load(entity.image_path)
-                    scaled_image = pg.transform.scale(image, (60, 60))
-                    assets[entity.image_path] = scaled_image
-        return assets
+        self.assets = {
+            "h": utils.load_image("h-player.png"),
+            "o": utils.load_image("o-player.png"),
+            "n": utils.load_image("n-player.png"),
+            "c": utils.load_image("c-player.png"),
+            "wall": utils.load_image("wall.png"),
+            "H": utils.load_image("h-field.png"),
+            "O": utils.load_image("o-field.png"),
+            "N": utils.load_image("n-field.png"),
+            "C": utils.load_image("c-field.png"),
+            "up": utils.load_image("con-up.png"),
+            "down": utils.load_image("con-down.png"),
+            "left": utils.load_image("con-left.png"),
+            "right": utils.load_image("con-right.png"),
+            "1": utils.load_image("one-con.png"),
+            "2": utils.load_image("two-con.png"),
+            "3": utils.load_image("three-con.png"),
+            "4": utils.load_image("four-con.png")
+        }
 
     def draw(self):
         self.screen.fill((255, 255, 255))
@@ -45,20 +46,8 @@ class Level_View:
                 if entity is not None:
                     self.draw_entity(entity)
 
-    def get_electron_image_path(self, atom):
-        return f"assets/images/{atom.electrons}-con.png"
-
     def draw_entity(self, entity):
         if isinstance(entity, Molecule_Model):
-            for atom in entity.molecule.keys():
-                image = self.assets[atom.image_path]
-                pos_x = atom.x * 60 + 130
-                pos_y = atom.y * 60
-                self.screen.blit(image, (pos_x, pos_y))
-
-                electron_image_path = self.get_electron_image_path(atom)
-                electron_image = self.assets[electron_image_path]
-                self.screen.blit(electron_image, (pos_x, pos_y))
+            Molecule_View(entity, self.screen, self.assets).draw()
         elif isinstance(entity, Wall_Model):
-            image = self.assets[entity.image_path]
-            self.screen.blit(image, (entity.x * 60 + 130, entity.y * 60))
+            Wall_View(entity, self.screen, self.assets["wall"]).draw()

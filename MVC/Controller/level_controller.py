@@ -29,13 +29,25 @@ class Level_Controller:
                     pg.quit()
                     sys.exit()
                 if event.key == pg.K_UP:
-                    molecule_controller.move('up')
+                    if (molecule_controller.move('up')):
+                        atoms = playerMolecule.get_atoms()
+                        for atom in atoms:
+                            molecule_controller.make_connections(atom)
                 elif event.key == pg.K_DOWN:
-                    molecule_controller.move('down')
+                    if (molecule_controller.move('down')):
+                        atoms = playerMolecule.get_atoms()
+                        for atom in atoms:
+                            molecule_controller.make_connections(atom)
                 elif event.key == pg.K_LEFT:
-                    molecule_controller.move('left')
+                    if (molecule_controller.move('left')):
+                        atoms = playerMolecule.get_atoms()
+                        for atom in atoms:
+                            molecule_controller.make_connections(atom)
                 elif event.key == pg.K_RIGHT:
-                    molecule_controller.move('right')
+                    if (molecule_controller.move('right')):
+                        atoms = playerMolecule.get_atoms()
+                        for atom in atoms:
+                            molecule_controller.make_connections(atom)
 
     def update(self):
         pass

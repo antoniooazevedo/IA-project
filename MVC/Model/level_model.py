@@ -36,7 +36,6 @@ class Level_Model:
         self.molecules = []
         self.scrape_level(level)
         self.connect_molecules()
-        self.movement = [0, 0, 0, 0]
     
     def scrape_level(self, level):
 
