@@ -47,7 +47,6 @@ class Game:
             
             self.level_controller.handle_events()
             
-            self.level_controller.update()
             self.level_view.draw()
             pg.display.update()
             
