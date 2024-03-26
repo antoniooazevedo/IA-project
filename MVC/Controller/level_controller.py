@@ -32,32 +32,18 @@ class Level_Controller:
                     pg.quit()
                     sys.exit()
                 if event.key == pg.K_UP:
-                    if (molecule_controller.move('up')):
-                        atoms = playerMolecule.get_atoms()
-                        for atom in atoms:
-                            molecule_controller.make_connections(atom)
-                            self.remove_old_molecules()
+                    molecule_controller.move('up')
 
                 elif event.key == pg.K_DOWN:
-                    if (molecule_controller.move('down')):
-                        atoms = playerMolecule.get_atoms()
-                        for atom in atoms:
-                            molecule_controller.make_connections(atom)
-                            self.remove_old_molecules()
+                    molecule_controller.move('down')
 
                 elif event.key == pg.K_LEFT:
-                    if (molecule_controller.move('left')):
-                        atoms = playerMolecule.get_atoms()
-                        for atom in atoms:
-                            molecule_controller.make_connections(atom)
-                            self.remove_old_molecules()
+                    molecule_controller.move('left')
 
                 elif event.key == pg.K_RIGHT:
-                    if (molecule_controller.move('right')):
-                        atoms = playerMolecule.get_atoms()
-                        for atom in atoms:
-                            molecule_controller.make_connections(atom)
-                            self.remove_old_molecules()
+                    molecule_controller.move('right')
+                
+        self.connect_molecules()
 
     def remove_old_molecules(self):
         self.model.molecules = []
@@ -65,6 +51,7 @@ class Level_Controller:
             for elem in x:
                 if (isinstance(elem, Molecule_Model) and elem not in self.model.molecules): 
                     self.model.molecules.append(elem)
+        
 
     def connect_molecules(self):
          for x in range(len(self.model.matrix)):
@@ -76,3 +63,4 @@ class Level_Controller:
                     controller = Molecule_Controller(entity, self.model.matrix)
                     for atom in entity.get_atoms():
                         controller.make_connections(atom)
+                        self.remove_old_molecules()

@@ -80,6 +80,7 @@ class Molecule_Controller:
         adjacent = self.matrix[new_y][new_x].get_molecule()
         atoms = adjacent.get_atoms()
         connection_done = False
+        
 
         for a in atoms:
             if a.get_position() == (new_x, new_y):
@@ -89,7 +90,14 @@ class Molecule_Controller:
                 self.connect(adjacent, a, opposite_direction)
                 connection_done = True
                 break
-        if connection_done:    
+            
+            
+        if connection_done:
+            
+            if (my_molecule.isPlayer or adjacent.isPlayer):
+                my_molecule.isPlayer = True
+                adjacent.isPlayer = True
+            
             for (atom, connections) in adjacent.molecule.items():
                 my_molecule.molecule[atom] = connections
             
