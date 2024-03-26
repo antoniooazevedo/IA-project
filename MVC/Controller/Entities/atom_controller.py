@@ -48,20 +48,14 @@ class Atom_Controller:
     
 
     def move(self, direction):
-        if self.can_move(direction):
-            if direction == 'up':
-                self.atom.y -= 1
-                return True
-            elif direction == 'down':
-                self.atom.y += 1
-                return True
-            elif direction == 'left':
-                self.atom.x -= 1
-                return True
-            elif direction == 'right':
-                self.atom.x += 1
-                return True
-        return False  
+        if direction == 'up':
+            self.atom.y -= 1
+        elif direction == 'down':
+            self.atom.y += 1
+        elif direction == 'left':
+            self.atom.x -= 1
+        elif direction == 'right':
+            self.atom.x += 1
 
 
 

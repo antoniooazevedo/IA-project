@@ -10,7 +10,7 @@ class Molecule_Controller:
         self.model = molecule_Model
         self.matrix = matrix
 
-    def move(self, direction):
+    def check_move(self, direction):
         atoms = self.model.get_atoms()
         can_move = False
         
@@ -22,32 +22,39 @@ class Molecule_Controller:
             else:
                 can_move = False
                 break
-       
-        if (can_move):
+        return can_move
+    
+    def move(self, direction):
+        if (self.check_move(direction)):
+            atoms = self.model.get_atoms()
+
             for atom in atoms:
                 atomController = Atom_Controller(atom, self.matrix)
                 x, y = atom.get_position()
                 if direction == 'up':
-                    if atomController.move('up'):
-                        self.matrix[y][x] = None
-                        self.matrix[y-1][x] = self.model      
+                    atomController.move('up')
+                    self.matrix[y][x] = None
+                    self.matrix[y-1][x] = self.model      
                 elif direction == 'down':
-                    if atomController.move('down'):
-                        self.matrix[y][x] = None
-                        self.matrix[y+1][x] = self.model
+                    atomController.move('down')
+                    self.matrix[y][x] = None
+                    self.matrix[y+1][x] = self.model
                 elif direction == 'left':
-                    if atomController.move('left'):
-                        self.matrix[y][x] = None
-                        self.matrix[y][x-1] = self.model
+                    atomController.move('left')
+                    self.matrix[y][x] = None
+                    self.matrix[y][x-1] = self.model
                 elif direction == 'right':
-                    if atomController.move('right'):
-                        self.matrix[y][x] = None
-                        self.matrix[y][x+1] = self.model
+                    atomController.move('right')
+                    self.matrix[y][x] = None
+                    self.matrix[y][x+1] = self.model
 
             for connection in self.model.get_connections():
                 connectionController = Connection_Controller(connection)
                 connectionController.move(direction)
-        return can_move
+            
+            return True
+                
+        return False
     
     
     def connect(self, my_molecule, my_atom, direction):
