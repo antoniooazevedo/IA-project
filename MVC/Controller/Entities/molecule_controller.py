@@ -14,7 +14,6 @@ class Molecule_Controller:
     def check_move(self, direction):
         atoms = self.model.get_atoms()
         can_move = True
-        other_molecules = []
         
         for atom in atoms: 
             atomController = Atom_Controller(atom, self.matrix)
@@ -25,15 +24,11 @@ class Molecule_Controller:
 
             elif isinstance(obj, Molecule_Model) and obj != self.model:
                 controller = Molecule_Controller(obj, self.matrix)
-                can_move = can_move and controller.check_move(direction)
-                other_molecules.append(controller)
+                can_move = can_move and controller.move(direction)
 
             elif obj == None:
                 can_move = can_move and True
 
-        if (can_move):
-            for molecule_controller in other_molecules:
-                molecule_controller.move(direction)
             
         return can_move
     

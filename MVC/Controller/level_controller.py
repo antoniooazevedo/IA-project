@@ -54,13 +54,14 @@ class Level_Controller:
         
 
     def connect_molecules(self):
-         for x in range(len(self.model.matrix)):
-            for y in range(len(self.model.matrix[x])): 
-                
-                entity = self.model.matrix[x][y]
+        for row in self.model.matrix:
+            for entity in row:
                 
                 if isinstance(entity, Molecule_Model):
                     controller = Molecule_Controller(entity, self.model.matrix)
                     for atom in entity.get_atoms():
+                        if entity.isPlayer:
+                            x,y = atom.get_position()
+                            print("DOWN: ", self.model.matrix[y+1][x])
                         controller.make_connections(atom)
                         self.remove_old_molecules()
