@@ -55,6 +55,8 @@ class Molecule_Controller:
                     atomController.move('right')
                     self.matrix[y][x] = None
                     self.matrix[y][x+1] = self.model
+                
+
 
             for connection in self.model.get_connections():
                 connectionController = Connection_Controller(connection)
