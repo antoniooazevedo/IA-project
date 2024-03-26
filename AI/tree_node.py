@@ -17,22 +17,21 @@ class TreeNode:
     def breadth_first_search(initial_state):
         root = TreeNode(initial_state)
         queue = deque([root])
-        visited = set()
+        visited = set([initial_state])
 
         while queue:
             node = queue.popleft()
+
             if (node.state.is_goal()):
                 return node
-
-            visited.add(node.state)
 
             for state in node.state.child_states():
                 if state not in visited:
                     child_node = TreeNode(state)
                     child_node.parent = node
                     queue.append(child_node)
-                    state.printState()
-        
+                    visited.add(state)
+
         return None
 
 
@@ -44,4 +43,3 @@ class TreeNode:
         else:
             TreeNode.print_solution(node.parent)
             node.state.printState()
-            print()

@@ -23,16 +23,18 @@ class Sokobond_State:
     def __str__(self):
         matrix_str = ''
         for row in self.level.matrix:
+            matrix_str += ','
             for cell in row:
                 if isinstance(cell, Wall_Model):
-                    matrix_str += 'W'
+                    matrix_str += ',#'
                 elif isinstance(cell, Molecule_Model):
                     if cell.isPlayer:
-                        matrix_str += 'P'
-                    else: matrix_str += 'M'
+                        matrix_str += ',P'
+                    else: 
+                        matrix_str += ',M'
                 else:
-                    matrix_str += '  '
-            matrix_str += '\n'
+                    matrix_str += ', '
+            matrix_str += ',\n'
         return matrix_str
     
     def printState(self):
@@ -65,18 +67,14 @@ class Sokobond_State:
         
     def child_states(self):
         new_states = []
-        up_state = self.move_up()
-        if up_state:
-            new_states.append(up_state)
-        down_state = self.move_down()
-        if down_state:
-            new_states.append(down_state)
-        left_state = self.move_left()
-        if left_state:
-            new_states.append(left_state)
-        right_state = self.move_right()
-        if right_state:
-            new_states.append(right_state)
+        if self.move_up():
+            new_states.append(self.move_up())
+        if self.move_right():
+            new_states.append(self.move_right())
+        if self.move_left():
+            new_states.append(self.move_left())
+        if self.move_down():
+            new_states.append(self.move_down())
         return new_states
 
     def is_goal(self):
