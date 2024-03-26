@@ -80,6 +80,7 @@ class Sokobond_State:
     def is_goal(self):
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
-        return controller.check_win()
+        controller.check_win()
+        return controller.model.won
 
     

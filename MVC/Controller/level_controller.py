@@ -14,19 +14,18 @@ class Level_Controller:
     def check_win(self):
         
         if (self.model.won):
-            return True
+            return
         
         if (len(self.model.molecules) != 1):
             self.model.won = False
-            return False
+            return
         
         for atom in self.model.molecules[0].get_atoms():
             if atom.get_electrons() != 0:
                 self.model.won = False
-                return False
+                return
             
         self.model.won = True
-        return True
 
     def player_move(self, direction):
         playerMolecule = self.model.get_player_molecule()
