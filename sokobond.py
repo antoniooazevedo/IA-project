@@ -15,7 +15,7 @@ class Game:
         pg.init()
     
         #self.ia = _ 
-        self.levelName = "lvl1.txt"
+        self.levelName = "lvl2.txt"
     
         pg.display.set_caption("Sokobond")
         self.screen = pg.display.set_mode(WINDOW_SIZE)

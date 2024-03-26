@@ -34,8 +34,3 @@ class Atom_Controller:
             self.atom.x -= 1
         elif direction == 'right':
             self.atom.x += 1
-
-
-
-
-        

@@ -79,19 +79,23 @@ class Molecule_Controller:
     def new_connection(self, new_x, new_y, my_molecule, current_atom, direction, opposite_direction):
         adjacent = self.matrix[new_y][new_x].get_molecule()
         atoms = adjacent.get_atoms()
+        connection_done = False
 
         for a in atoms:
-            if a.get_position() == (new_x, new_y) and a.get_electrons() > 0:
+            if a.get_position() == (new_x, new_y):
+                if a.get_electrons() == 0:
+                    continue
                 self.connect(my_molecule, current_atom, direction)
                 self.connect(adjacent, a, opposite_direction)
+                connection_done = True
                 break
+        if connection_done:    
+            for (atom, connections) in adjacent.molecule.items():
+                my_molecule.molecule[atom] = connections
             
-        for (atom, connections) in adjacent.molecule.items():
-            my_molecule.molecule[atom] = connections
-        
-        for atom in atoms:
-            x, y = atom.get_position()
-            self.matrix[y][x] = my_molecule
+            for atom in atoms:
+                x, y = atom.get_position()
+                self.matrix[y][x] = my_molecule
 
     def make_connections(self, current_atom):
         x,y = current_atom.get_position()

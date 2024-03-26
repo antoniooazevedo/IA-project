@@ -2,6 +2,7 @@ import sys
 import pygame as pg
 
 from MVC.Model.Entities.molecule_model import Molecule_Model as Molecule_Model
+from MVC.Controller.Entities.molecule_controller import Molecule_Controller 
 from MVC.Model.Entities.atom_model import Atom_Model as Atom_Model
 from MVC.Model.Entities.wall_model import Wall_Model as Wall_Model
 from MVC.Model.Entities.connection_model import Connection_Model as Connection_Model
@@ -35,7 +36,6 @@ class Level_Model:
     def __init__(self, level):
         self.molecules = []
         self.scrape_level(level)
-        self.connect_molecules()
     
     def scrape_level(self, level):
 
@@ -84,26 +84,4 @@ class Level_Model:
                 return molecule
         return None
     
-    def connect_molecules(self):
-        
-         for x in range(len(self.matrix)):
-            for y in range(len(self.matrix[x])): 
-                
-                entity = self.matrix[x][y]
-                
-                if isinstance(entity, Molecule_Model):
                     
-                    #check up
-                    #if isinstance(self.matrix[x-1][y], molecule_model):
-                    #    molecule = 
-
-                    #check down
-                    #if isinstance(self.matrix[x+1][y], molecule_model):
-                    
-                    #check left
-                    #if isinstance(self.matrix[x][y-1], molecule_model):
-                    
-                    #check right
-                    #if isinstance(self.matrix[x][y+1], molecule_model):
-                
-                    pass

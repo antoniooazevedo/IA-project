@@ -9,6 +9,7 @@ class Level_Controller:
     
     def __init__(self, level_model: Level_Model):
         self.model = level_model
+        self.connect_molecules()
         
     def check_win(self):
         
@@ -64,4 +65,14 @@ class Level_Controller:
             for elem in x:
                 if (isinstance(elem, Molecule_Model) and elem not in self.model.molecules): 
                     self.model.molecules.append(elem)
-        
+
+    def connect_molecules(self):
+         for x in range(len(self.model.matrix)):
+            for y in range(len(self.model.matrix[x])): 
+                
+                entity = self.model.matrix[x][y]
+                
+                if isinstance(entity, Molecule_Model):
+                    controller = Molecule_Controller(entity, self.model.matrix)
+                    for atom in entity.get_atoms():
+                        controller.make_connections(atom)
