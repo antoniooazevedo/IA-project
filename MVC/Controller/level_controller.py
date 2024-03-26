@@ -60,8 +60,5 @@ class Level_Controller:
                 if isinstance(entity, Molecule_Model):
                     controller = Molecule_Controller(entity, self.model.matrix)
                     for atom in entity.get_atoms():
-                        if entity.isPlayer:
-                            x,y = atom.get_position()
-                            print("DOWN: ", self.model.matrix[y+1][x])
                         controller.make_connections(atom)
                         self.remove_old_molecules()
