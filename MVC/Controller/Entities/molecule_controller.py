@@ -2,6 +2,7 @@ import pygame as pg
 import sys
 from MVC.Model.Entities.molecule_model import Molecule_Model
 from MVC.Model.Entities.connection_model import Connection_Model
+from MVC.Model.Entities.wall_model import Wall_Model
 from MVC.Controller.Entities.atom_controller import Atom_Controller
 from MVC.Controller.Entities.connection_controller import Connection_Controller
 
@@ -12,16 +13,28 @@ class Molecule_Controller:
 
     def check_move(self, direction):
         atoms = self.model.get_atoms()
-        can_move = False
+        can_move = True
+        other_molecules = []
         
         for atom in atoms: 
             atomController = Atom_Controller(atom, self.matrix)
-            x, y = atom.get_position()
-            if atomController.can_move(direction):
-                can_move = True
-            else:
-                can_move = False
-                break
+            obj = atomController.direction_check(direction)
+            
+            if isinstance(obj, Wall_Model):
+                return False
+
+            elif isinstance(obj, Molecule_Model) and obj != self.model:
+                controller = Molecule_Controller(obj, self.matrix)
+                can_move = can_move and controller.check_move(direction)
+                other_molecules.append(controller)
+
+            elif obj == None:
+                can_move = can_move and True
+
+        if (can_move):
+            for molecule_controller in other_molecules:
+                molecule_controller.move(direction)
+            
         return can_move
     
     def move(self, direction):

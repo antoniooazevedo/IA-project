@@ -1,6 +1,7 @@
 import pygame as pg
 import sys
 from MVC.Model.Entities.atom_model import Atom_Model
+from MVC.Model.Entities.molecule_model import Molecule_Model
 from MVC.Model.Entities.wall_model import Wall_Model
 
 class Atom_Controller:
@@ -8,43 +9,20 @@ class Atom_Controller:
         self.atom = Atom_Model
         self.matrix = matrix
 
-    def can_move(self, direction):
+    def direction_check(self, direction):
         x, y = self.atom.get_position()
         if direction == 'up':
-            if isinstance(self.matrix[y - 1][x],Wall_Model):
-                return False
-            #elif isinstance(self.matrix[y - 1][x],Atom_Model):
-            #    return self.matrix[y - 1][x].can_move(direction)
-            else:
-                return True
+            return self.matrix[y-1][x]
         
         elif direction == 'down':
-            if isinstance(self.matrix[y + 1][x],Wall_Model):
-                return False
-            #elif isinstance(self.matrix[y + 1][x],Atom_Model):
-            #    return self.matrix[y + 1][x].can_move(direction)
-            else:
-                return True    
-        
+            return self.matrix[y+1][x]
         
         elif direction == 'left':
-            if isinstance(self.matrix[y][x - 1],Wall_Model):
-                return False
-            #elif isinstance(self.matrix[y][x - 1],Atom_Model):
-            #    return self.matrix[y][x - 1].can_move(direction)
-            else:
-                return True
+            return self.matrix[y][x-1]
             
         elif direction == 'right':
-            if isinstance(self.matrix[y][x + 1],Wall_Model):
-                return False
-            #elif isinstance(self.matrix[y][x + 1],Atom_Model):
-            #    return self.matrix[y][x + 1].can_move(direction)
-            else:
-                return True
-                
-        return False
-    
+            return self.matrix[y][x+1]
+
     
 
     def move(self, direction):
