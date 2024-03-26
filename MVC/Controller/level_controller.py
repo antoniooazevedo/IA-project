@@ -31,16 +31,16 @@ class Level_Controller:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
-                if event.key == pg.K_UP:
+                if event.key == pg.K_UP or event.key == pg.K_w:
                     molecule_controller.move('up')
 
-                elif event.key == pg.K_DOWN:
+                elif event.key == pg.K_DOWN or event.key == pg.K_s:
                     molecule_controller.move('down')
 
-                elif event.key == pg.K_LEFT:
+                elif event.key == pg.K_LEFT or event.key == pg.K_a:
                     molecule_controller.move('left')
 
-                elif event.key == pg.K_RIGHT:
+                elif event.key == pg.K_RIGHT or event.key == pg.K_d:
                     molecule_controller.move('right')
                 
         self.connect_molecules()
