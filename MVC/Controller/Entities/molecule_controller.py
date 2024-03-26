@@ -1,5 +1,4 @@
 import pygame as pg
-import sys
 from MVC.Model.Entities.molecule_model import Molecule_Model
 from MVC.Model.Entities.connection_model import Connection_Model
 from MVC.Model.Entities.wall_model import Wall_Model
@@ -85,7 +84,7 @@ class Molecule_Controller:
 
         for a in atoms:
             if a.get_position() == (new_x, new_y):
-                if a.get_electrons() == 0:
+                if a.get_electrons() <= 0 or current_atom.get_electrons() <= 0:
                     continue
                 self.connect(my_molecule, current_atom, direction)
                 self.connect(adjacent, a, opposite_direction)
