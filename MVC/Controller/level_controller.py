@@ -13,35 +13,39 @@ class Level_Controller:
         
     def check_win(self):
         
+        if (self.model.won):
+            return
+        
         if (len(self.model.molecules) != 1):
-            return False
+            self.model.won = False
+            return
         
         for atom in self.model.molecules[0].get_atoms():
             if atom.get_electrons() != 0:
-                return False
+                self.model.won = False
+                return
             
-        return True
+        self.model.won = True
 
-    def handle_events(self):
+    def player_move(self, direction):
         playerMolecule = self.model.get_player_molecule()
         molecule_controller = Molecule_Controller(playerMolecule, self.model.matrix)
+        molecule_controller.move(direction)
+        self.connect_molecules()
 
+    def handle_events(self):
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
-                    pg.quit()
-                    sys.exit()
+                    self.won = True
                 if event.key == pg.K_UP or event.key == pg.K_w:
-                    molecule_controller.move('up')
-
+                    self.player_move('up')
                 elif event.key == pg.K_DOWN or event.key == pg.K_s:
-                    molecule_controller.move('down')
-
+                    self.player_move('down')
                 elif event.key == pg.K_LEFT or event.key == pg.K_a:
-                    molecule_controller.move('left')
-
+                    self.player_move('left')
                 elif event.key == pg.K_RIGHT or event.key == pg.K_d:
-                    molecule_controller.move('right')
+                    self.player_move('right')
                 
                 elif event.key == pg.K_p:
                     x = 0

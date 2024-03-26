@@ -34,6 +34,7 @@ BASE_LVL_PATH = 'assets/levels/'
 
 class Level_Model:
     def __init__(self, level):
+        self.won = False
         self.molecules = []
         self.scrape_level(level)
     

@@ -1,0 +1,87 @@
+import copy
+from MVC.Model.level_model import Level_Model
+from MVC.Controller.level_controller import Level_Controller
+from MVC.Controller.Entities.molecule_controller import Molecule_Controller
+from MVC.Model.Entities.molecule_model import Molecule_Model
+from MVC.Model.Entities.wall_model import Wall_Model
+
+
+class Sokobond_State:
+
+    def __init__(self, level):
+        self.level = level
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.__str__() == other.__str__()
+        else:
+            return False
+
+    def __hash__(self):
+        return hash(self.__str__())
+    
+    def __str__(self):
+        matrix_str = ''
+        for row in self.level.matrix:
+            for cell in row:
+                if isinstance(cell, Wall_Model):
+                    matrix_str += 'W'
+                elif isinstance(cell, Molecule_Model):
+                    if cell.isPlayer:
+                        matrix_str += 'P'
+                    else: matrix_str += 'M'
+                else:
+                    matrix_str += '  '
+            matrix_str += '\n'
+        return matrix_str
+    
+    def printState(self):
+        print(self.__str__())
+
+    def move_up(self):
+        copy_level = copy.deepcopy(self.level)
+        controller = Level_Controller(copy_level)
+        controller.player_move('up')
+        return Sokobond_State(copy_level)    
+
+    def move_down(self):
+        copy_level = copy.deepcopy(self.level)
+        controller = Level_Controller(copy_level)
+        controller.player_move('down')
+        return Sokobond_State(copy_level)
+    
+    def move_left(self):
+        copy_level = copy.deepcopy(self.level)
+        controller = Level_Controller(copy_level)
+        controller.player_move('left')
+        return Sokobond_State(copy_level)
+    
+    def move_right(self):
+        copy_level = copy.deepcopy(self.level)
+        controller = Level_Controller(copy_level)
+        controller.player_move('right')
+        return Sokobond_State(copy_level)
+    
+        
+    def child_states(self):
+        new_states = []
+        up_state = self.move_up()
+        if up_state:
+            new_states.append(up_state)
+        down_state = self.move_down()
+        if down_state:
+            new_states.append(down_state)
+        left_state = self.move_left()
+        if left_state:
+            new_states.append(left_state)
+        right_state = self.move_right()
+        if right_state:
+            new_states.append(right_state)
+        return new_states
+
+    def is_goal(self):
+        copy_level = copy.deepcopy(self.level)
+        controller = Level_Controller(copy_level)
+        return controller.check_win()
+
+    
