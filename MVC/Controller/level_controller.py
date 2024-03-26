@@ -52,9 +52,8 @@ class Level_Controller:
                             x += 1
                         x = 0
                         y += 1
-                
+                        
         self.connect_molecules()
-        self.correct_matrix()
 
     def remove_old_molecules(self):
         self.model.molecules = []
@@ -73,9 +72,3 @@ class Level_Controller:
                     for atom in entity.get_atoms():
                         controller.make_connections(atom)
                         self.remove_old_molecules()
-
-    def correct_matrix(self):
-        for molecule in self.model.molecules:
-            for atom in molecule.get_atoms():
-                x, y = atom.get_position()
-                self.model.matrix[y][x] = molecule

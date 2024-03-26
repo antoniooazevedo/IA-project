@@ -35,29 +35,33 @@ class Molecule_Controller:
     def move(self, direction):
         if (self.check_move(direction)):
             atoms = self.model.get_atoms()
+            list_positions = []
+            list_new_positions = []
 
             for atom in atoms:
                 atomController = Atom_Controller(atom, self.matrix)
+                
                 x, y = atom.get_position()
+                list_positions.append((x, y))
+                
                 if direction == 'up':
                     atomController.move('up')
-                    self.matrix[y][x] = None
-                    self.matrix[y-1][x] = self.model      
                 elif direction == 'down':
                     atomController.move('down')
-                    self.matrix[y][x] = None
-                    self.matrix[y+1][x] = self.model
                 elif direction == 'left':
                     atomController.move('left')
-                    self.matrix[y][x] = None
-                    self.matrix[y][x-1] = self.model
                 elif direction == 'right':
                     atomController.move('right')
-                    self.matrix[y][x] = None
-                    self.matrix[y][x+1] = self.model
+                    
+                x, y = atom.get_position()
+                list_new_positions.append((x, y))
+            
+            for (x, y) in list_positions:
+                self.matrix[y][x] = None
+            
+            for (x, y) in list_new_positions:
+                self.matrix[y][x] = self.model
                 
-
-
             for connection in self.model.get_connections():
                 connectionController = Connection_Controller(connection)
                 connectionController.move(direction)
