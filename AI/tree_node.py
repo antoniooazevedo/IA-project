@@ -65,39 +65,34 @@ class Search:
     def depth_limited_search(initial_state, depth_limit):
         root = TreeNode(initial_state)
         stack = [(root, 0)]
-        visited = set()
+        count = 0
 
         while stack:
             (node, depth) = stack.pop()
+            count += 1
 
-            if depth > depth_limit:
-                continue
-
-            was_added = False
-            if node.state not in visited:
-                visited.add(node.state)
-                was_added = True
-
-            if node.state.is_goal():
+            if (node.state.is_goal()):
+                print("Nodes visited: ", count)
                 return node
 
-            if depth < depth_limit:  # Only generate child nodes if below depth limit
-                for state in node.state.child_states():
-                    child_node = TreeNode(state)
-                    node.add_child(child_node)
-                    stack.append((child_node, depth + 1))
+            if depth == depth_limit:
+                continue
+            
+            for state in node.state.child_states():
+                child_node = TreeNode(state)
+                node.add_child(child_node)
+                stack.append((child_node, depth + 1))
 
-            if was_added:
-                visited.remove(node.state)
-
+        print("Nodes visited: ", count)
         return None
 
     def iterative_deepening_search(initial_state, depth_limit):
         for local_limit in range(depth_limit+1):
+            print("Searching depth limit: ", local_limit)
             result = Search.depth_limited_search(initial_state, local_limit)
-            print(result)
             if result is not None:
                 return result
+            print("No solution found at depth limit")
         return None
 
     def print_solution(node):
