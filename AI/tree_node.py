@@ -65,7 +65,7 @@ class Search:
     def depth_limited_search(initial_state, depth_limit):
         root = TreeNode(initial_state)
         stack = [(root, 0)]
-        visited = set()
+        visited = {} 
 
         while stack:
             (node, depth) = stack.pop()
@@ -73,10 +73,12 @@ class Search:
             if depth > depth_limit:
                 continue
 
-            was_added = False
-            if node.state not in visited:
-                visited.add(node.state)
-                was_added = True
+            for s, d in visited.items():
+                if s == node.state:
+                    if depth < d:
+                        visited[s] = depth
+                    else:
+                        continue
 
             if (node.state.is_goal()):
                 return node
@@ -86,8 +88,7 @@ class Search:
                 node.add_child(child_node)
                 stack.append((child_node, depth + 1))
 
-            if was_added:
-                visited.remove(node.state)
+            visited[node.state] = depth
 
         return None
 
