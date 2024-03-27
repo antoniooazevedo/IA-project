@@ -78,13 +78,14 @@ class Search:
                 visited.add(node.state)
                 was_added = True
 
-            if (node.state.is_goal()):
+            if node.state.is_goal():
                 return node
 
-            for state in node.state.child_states():
-                child_node = TreeNode(state)
-                node.add_child(child_node)
-                stack.append((child_node, depth + 1))
+            if depth < depth_limit:  # Only generate child nodes if below depth limit
+                for state in node.state.child_states():
+                    child_node = TreeNode(state)
+                    node.add_child(child_node)
+                    stack.append((child_node, depth + 1))
 
             if was_added:
                 visited.remove(node.state)
