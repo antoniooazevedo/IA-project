@@ -66,29 +66,29 @@ class Search:
         root = TreeNode(initial_state)
         stack = [(root, 0)]
         visited = set()
-        count = 0
 
         while stack:
             (node, depth) = stack.pop()
-            count += 1
 
             if depth > depth_limit:
                 continue
 
-            if node.state in visited:
-                continue
+            was_added = False
+            if node.state not in visited:
+                visited.add(node.state)
+                was_added = True
 
             if (node.state.is_goal()):
                 return node
-            
 
             for state in node.state.child_states():
                 child_node = TreeNode(state)
                 node.add_child(child_node)
                 stack.append((child_node, depth + 1))
-            
-                
-            visited.add(node.state)
+
+            if was_added:
+                visited.remove(node.state)
+
         return None
 
     def iterative_deepening_search(initial_state, depth_limit):

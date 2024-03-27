@@ -46,17 +46,17 @@ class Game:
         self.level_view = Level_View(self.level_model, self.screen)
         self.level_controller = Level_Controller(self.level_model)   
                 
-        state = Sokobond_State(self.level_model)
-        goal = Search.breadth_first_search(state)
-        Search.print_solution(goal)
-        
-        print("BFS DONE //////////////////////////////////////")
-
-        state = Sokobond_State(self.level_model)
-        goal = Search.depth_first_search(state)
-        Search.print_solution(goal)
-
-        print("DFS DONE //////////////////////////////////////")
+        #state = Sokobond_State(self.level_model)
+        #goal = Search.breadth_first_search(state)
+        #Search.print_solution(goal)
+        #
+        #print("BFS DONE //////////////////////////////////////")
+#
+        #state = Sokobond_State(self.level_model)
+        #goal = Search.depth_first_search(state)
+        #Search.print_solution(goal)
+#
+        #print("DFS DONE //////////////////////////////////////")
 
         state = Sokobond_State(self.level_model)
         goal = Search.iterative_deepening_search(state, 10)
