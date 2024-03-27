@@ -29,17 +29,18 @@ class Game:
 
     def run(self):
         
-        #main_menu_model = Menu_Model(["Play", "Quit"], "arial", "SOKOBOND", "arial")
-        #main_menu_view = Menu_View(self.screen, main_menu_model)
-        #main_menu_controller = Main_Menu_Controller(main_menu_model, self.screen)
-#
-        #while True:
-        #    main_menu_controller.handle_events()
-        #    
-        #    main_menu_view.draw()
-        #    pg.display.update()
-        #    
-        #    self.clock.tick(self.fps)
+        main_menu_model = Menu_Model(["Play", "Quit"], "SOKOBOND", "arial", "arial")
+        main_menu_view = Menu_View(self.screen, main_menu_model)
+        main_menu_controller = Main_Menu_Controller(main_menu_model, self.screen)
+
+        while True:
+            main_menu_controller.handle_events()
+            
+            if (not main_menu_controller.on_level_menu) and (not main_menu_controller.level_menu_controller.playing):
+                main_menu_view.draw()
+                pg.display.update()
+            
+            self.clock.tick(self.fps)
 
         
         self.level_model = Level_Model(self.levelName)
