@@ -7,7 +7,7 @@ from MVC.Model.menu_model import Menu_Model
 from MVC.View.menu_view import Menu_View
 from MVC.Controller.Menus.main_menu_controller import Main_Menu_Controller
 from AI.sokobond_state import Sokobond_State
-from AI.tree_node import TreeNode
+from AI.tree_node import Search, TreeNode
 import utils as utils
 
 # Constants
@@ -47,12 +47,21 @@ class Game:
         self.level_controller = Level_Controller(self.level_model)   
                 
         state = Sokobond_State(self.level_model)
-        TreeNode.breadth_first_search(state)
-#
-        goal = TreeNode.breadth_first_search(state)
-        TreeNode.print_solution(goal)
-
+        goal = Search.breadth_first_search(state)
+        Search.print_solution(goal)
         
+        print("BFS DONE //////////////////////////////////////")
+
+        state = Sokobond_State(self.level_model)
+        goal = Search.depth_first_search(state)
+        Search.print_solution(goal)
+
+        print("DFS DONE //////////////////////////////////////")
+
+        state = Sokobond_State(self.level_model)
+        goal = Search.iterative_deepening_search(state, 10)
+        Search.print_solution(goal)
+
         while (not self.level_model.won):
             
             self.level_controller.handle_events()

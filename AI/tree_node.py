@@ -13,27 +13,91 @@ class TreeNode:
         self.children.append(child_node)
         child_node.parent = self
 
-    @staticmethod
+class Search:
+
     def breadth_first_search(initial_state):
         root = TreeNode(initial_state)
         queue = deque([root])
-        visited = set([initial_state])
+        visited = set()
 
         while queue:
             node = queue.popleft()
+
+            if node.state in visited:
+                continue
 
             if (node.state.is_goal()):
                 return node
 
             for state in node.state.child_states():
-                if state not in visited:
                     child_node = TreeNode(state)
-                    child_node.parent = node
+                    node.add_child(child_node)
                     queue.append(child_node)
-                    visited.add(state)
+
+            visited.add(node.state)
 
         return None
 
+    def depth_first_search(initial_state):
+        root = TreeNode(initial_state)
+        stack = [root]
+        visited = set()
+
+        while stack:
+            node = stack.pop()
+
+            if node.state in visited:
+                continue
+
+            if (node.state.is_goal()):
+                return node
+
+
+            for state in node.state.child_states():
+                child_node = TreeNode(state)
+                node.add_child(child_node)
+                stack.append(child_node)
+
+            visited.add(node.state)
+
+        return None
+
+    def depth_limited_search(initial_state, depth_limit):
+        root = TreeNode(initial_state)
+        stack = [(root, 0)]
+        visited = set()
+        count = 0
+
+        while stack:
+            (node, depth) = stack.pop()
+            count += 1
+
+            if depth > depth_limit:
+                continue
+
+            if node.state in visited:
+                continue
+
+            if (node.state.is_goal()):
+                return node
+            
+
+            for state in node.state.child_states():
+                child_node = TreeNode(state)
+                node.add_child(child_node)
+                stack.append((child_node, depth + 1))
+            
+                
+            visited.add(node.state)
+        return None
+
+    def iterative_deepening_search(initial_state, depth_limit):
+        for local_limit in range(depth_limit+1):
+            result = Search.depth_limited_search(initial_state, local_limit)
+            print(result)
+            if result is not None:
+                return result
+        return None
 
     def print_solution(node):
         if node == None:
@@ -41,5 +105,5 @@ class TreeNode:
         elif node.parent == None:
             node.state.printState()
         else:
-            TreeNode.print_solution(node.parent)
+            Search.print_solution(node.parent)
             node.state.printState()
