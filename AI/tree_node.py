@@ -4,15 +4,17 @@ from collections import deque
 import heapq
 
 class TreeNode:
-    def __init__(self, state, parent=None):
+    def __init__(self, state, move=None, parent=None):
         self.state = state
+        self.move = move
         self.parent = parent
         self.children = []
         self.depth = 0
     
-    def add_child(self, child_node):
+    def add_child(self, child_node, move):
         self.children.append(child_node)
         child_node.parent = self
+        child_node.move = move
 
 class Search:
 
@@ -26,9 +28,9 @@ class Search:
             if (node.state.is_goal()):
                 return node
 
-            for state in node.state.child_states():
+            for move, state in node.state.child_states():
                     child_node = TreeNode(state)
-                    node.add_child(child_node)
+                    node.add_child(child_node, move)
                     queue.append(child_node)
 
         return None
@@ -48,9 +50,9 @@ class Search:
                 return node
 
 
-            for state in node.state.child_states():
+            for move, state in node.state.child_states():
                 child_node = TreeNode(state)
-                node.add_child(child_node)
+                node.add_child(child_node, move)
                 stack.append(child_node)
 
             visited.add(node.state)
@@ -73,9 +75,9 @@ class Search:
             if depth == depth_limit:
                 continue
             
-            for state in node.state.child_states():
+            for move, state in node.state.child_states():
                 child_node = TreeNode(state)
-                node.add_child(child_node)
+                node.add_child(child_node, move)
                 stack.append((child_node, depth + 1))
 
         print("Nodes visited: ", count)
@@ -104,10 +106,10 @@ class Search:
             if node.state in visited:
                 continue
 
-            for state in node.state.child_states():
+            for move, state in node.state.child_states():
                 local_cost = cost_function(state)
                 child_node = TreeNode(state)
-                node.add_child(child_node)
+                node.add_child(child_node, move)
                 queue.append((child_node, local_cost))
 
 
@@ -133,9 +135,9 @@ class Search:
             if (node.state.is_goal()):
                 return node
 
-            for state in node.state.child_states():
+            for move, state in node.state.child_states():
                 child_node = TreeNode(state)
-                node.add_child(child_node)
+                node.add_child(child_node, move)
                 queue.append(child_node)
 
         return None
@@ -148,6 +150,14 @@ class Search:
         else:
             Search.print_solution(node.parent)
             node.state.printState()
+
+    def get_solution_moves(node):
+        moves = []
+        while node.parent != None:
+            moves.append(node.move)
+            node = node.parent
+        moves.reverse()
+        return moves
 
 
 class Heuristic:

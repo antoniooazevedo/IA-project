@@ -1,9 +1,11 @@
 import pygame as pg
 import sys
 
+
 from MVC.Model.level_model import Level_Model
 from MVC.Controller.Entities.molecule_controller import Molecule_Controller
 from MVC.Model.Entities.molecule_model import Molecule_Model
+
 
 class Level_Controller:
     
@@ -46,7 +48,6 @@ class Level_Controller:
                     self.player_move('left')
                 elif event.key == pg.K_RIGHT or event.key == pg.K_d:
                     self.player_move('right')
-                
                 elif event.key == pg.K_p:
                     x = 0
                     y = 0
@@ -58,6 +59,13 @@ class Level_Controller:
                         y += 1
                         
         self.connect_molecules()
+
+    def handle_AIevents(self, move):
+        self.player_move(move)
+        self.connect_molecules()
+        self.check_win()                        
+
+    
 
     def remove_old_molecules(self):
         self.model.molecules = []

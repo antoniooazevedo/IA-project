@@ -73,13 +73,13 @@ class Sokobond_State:
     def child_states(self):
         new_states = []
         if self.move_up():
-            new_states.append(self.move_up())
+            new_states.append(('up',self.move_up()))
         if self.move_right():
-            new_states.append(self.move_right())
+            new_states.append(('right',self.move_right()))
         if self.move_left():
-            new_states.append(self.move_left())
+            new_states.append(('left',self.move_left()))
         if self.move_down():
-            new_states.append(self.move_down())
+            new_states.append(('down',self.move_down()))
         return new_states
 
     def is_goal(self):
