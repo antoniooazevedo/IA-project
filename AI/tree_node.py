@@ -98,11 +98,11 @@ class Search:
         while queue:
             (node, cost) = queue.popleft()
 
-            if node.state in visited:
-                continue
-
             if (node.state.is_goal()):
                 return node
+            
+            if node.state in visited:
+                continue
 
             for state in node.state.child_states():
                 local_cost = cost_function(state)
@@ -110,8 +110,11 @@ class Search:
                 node.add_child(child_node)
                 queue.append((child_node, local_cost))
 
+
+
+            queue = deque(sorted(queue, key=lambda x: x[1], reverse=True))
+
             visited.add(node.state)
-            queue = deque(sorted(queue, key=lambda x: x[1]))
 
         return None
     
@@ -149,12 +152,19 @@ class Search:
 
 class Heuristic:
     def prioritize_free_electrons(state):
-        n_molecules = len(state.level.molecules)
-        n_electrons = 0
-        for m in state.level.molecules:
-            for a,c in m.molecule.items():
-                n_electrons = n_electrons + a.electrons
+        cost = 0
+        
+        if len(state.level.molecules) == 1:
+            return 1000
+        
+        player = state.level.get_player_molecule()
+        
+        
+        for a in player.get_atoms():
+            cost += a.get_electrons()
+            
+        return cost
+                
 
-        return n_electrons * n_molecules #quanto menor, melhor (por causa do sort)
-    
+                    
     

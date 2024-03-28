@@ -22,19 +22,24 @@ class Sokobond_State:
     
     def __str__(self):
         matrix_str = ''
+        x = -1
+        y = -1
         for row in self.level.matrix:
+            y += 1
             matrix_str += ','
             for cell in row:
+                x += 1
                 if isinstance(cell, Wall_Model):
                     matrix_str += ',#'
                 elif isinstance(cell, Molecule_Model):
-                    if cell.isPlayer:
-                        matrix_str += ',P'
-                    else: 
-                        matrix_str += ',M'
+                    for a in cell.get_atoms():
+                        if (x,y) == a.get_position():
+                            matrix_str += ',' + a.element
+                            break
                 else:
                     matrix_str += ', '
             matrix_str += ',\n'
+            x = -1
         return matrix_str
     
     def printState(self):

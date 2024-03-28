@@ -19,7 +19,7 @@ class Game:
     def __init__(self):
         pg.init()
     
-        self.levelName = "lvl1.txt"
+        self.levelName = "lvl3.txt"
     
         pg.display.set_caption("Sokobond")
         self.screen = pg.display.set_mode(WINDOW_SIZE)
@@ -32,6 +32,17 @@ class Game:
         main_menu_model = Menu_Model(["Play", "Quit"], "SOKOBOND", "arial", "arial")
         main_menu_view = Menu_View(self.screen, main_menu_model)
         main_menu_controller = Main_Menu_Controller(main_menu_model, self.screen)
+        self.level_model = Level_Model(self.levelName)
+
+        state = Sokobond_State(self.level_model)
+        goal = Search.depth_first_search(state)
+        Search.print_solution(goal)
+
+        print("DFS DONE //////////////////////////////////////")
+        
+        state = Sokobond_State(self.level_model)
+        goal = Search.greedy_search(state, Heuristic.prioritize_free_electrons)
+        Search.print_solution(goal)
 
         while True:
             main_menu_controller.handle_events()
