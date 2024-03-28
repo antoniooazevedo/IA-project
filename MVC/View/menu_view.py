@@ -11,7 +11,7 @@ class Menu_View:
         
     def draw_text(self, text, font, size, x, y):
         font = pg.font.Font(None, size)
-        text = font.render(text, True, (255, 255, 255))
+        text = font.render(text, True, (0, 0, 0))
         self.screen.blit(text, (x, y))
         
     def draw(self):
@@ -20,7 +20,8 @@ class Menu_View:
         
         for i in range(len(self.model.options)):
             self.draw_text(self.model.options[i], self.model.optionsFont, 30, 10, 100 + 30*i)
+        
+        self.draw_selected()
             
     def draw_selected(self):
-        self.draw()
-        self.draw_text(">", self.model.optionsFont, 30, 10, 100 + 30*self.model.selected)
+        self.draw_text(">", self.model.optionsFont, 30, 8, 100 + 30*self.model.selected)

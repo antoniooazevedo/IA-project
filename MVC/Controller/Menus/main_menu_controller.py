@@ -47,8 +47,9 @@ class Main_Menu_Controller:
     def level_menu(self):
         
         if self.level_menu_controller.handle_events():
-            self.level_menu_view.draw()
-            pg.display.update()
+            if not self.level_menu_controller.playing:
+                self.level_menu_view.draw()
+                pg.display.update()                
         else:
             self.on_level_menu = False
             self.handle_events()

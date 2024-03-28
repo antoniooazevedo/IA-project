@@ -37,7 +37,7 @@ class Level_Controller:
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
-                    self.won = True
+                    self.model.won = True
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     self.player_move('up')
                 elif event.key == pg.K_DOWN or event.key == pg.K_s:
