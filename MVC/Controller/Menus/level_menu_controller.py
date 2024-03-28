@@ -28,11 +28,17 @@ class Level_Menu_Controller:
                     sys.exit()
                     
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_DOWN:
+                    if event.key == pg.K_LEFT:
+                        self.model.selected = (self.model.selected - 1) % len(self.model.options)
+                        return True
+                    if event.key == pg.K_RIGHT:
                         self.model.selected = (self.model.selected + 1) % len(self.model.options)
                         return True
                     if event.key == pg.K_UP:
-                        self.model.selected = (self.model.selected - 1) % len(self.model.options)
+                        self.model.selected = (self.model.selected - 2) % len(self.model.options)
+                        return True
+                    if event.key == pg.K_DOWN:
+                        self.model.selected = (self.model.selected + 2) % len(self.model.options)
                         return True
                     if event.key == pg.K_RETURN:
                         level = "lvl" + str(self.model.selected + 1) + ".txt"

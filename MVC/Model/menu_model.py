@@ -1,11 +1,12 @@
 import pygame as pg
 
 class Menu_Model:
-    def __init__(self, options, bigText, bigFont, optionsFont):
+    def __init__(self, options, bigText, optionsFontSize):
         self.options = options
-        self.optionsFont = optionsFont
+        self.optionsFontSize = optionsFontSize
         self.bigText = bigText
-        self.bigFont = bigFont
+
         self.selected = 0
+        
     
         
