@@ -138,12 +138,12 @@ class Search:
                 child_node = TreeNode(state)
                 child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
-                local_cost = heuristic(state) - child_node.depth
-                queue.append((child_node, local_cost))  
+                local_value = heuristic(state) - child_node.depth
+                queue.append((child_node, local_value))  
 
             queue = deque(sorted(queue, key=lambda x: x[1], reverse=True))
 
-            #visited.add(node.state)
+            visited.add(node.state)
 
         return None
 
@@ -200,8 +200,8 @@ class Heuristic:
         for m in molecules:
             atoms.extend(m.get_atoms())
 
+        min_distance = 1000
         for a in atoms:
-            min_distance = 1000
             for p in player.get_atoms():
                 min_distance = min(min_distance, abs(a.get_position()[0] - p.get_position()[0]) + abs(a.get_position()[1] - p.get_position()[1])) 
         
