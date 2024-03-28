@@ -13,7 +13,7 @@ class Main_Menu_Controller:
         
         self.on_level_menu = False
         
-        self.level_menu_model = Menu_Model(["lvl1","lvl2","lvl3","lvl4","lvl5","lvl6","lvl7","lvl8"], "Choose a level", 50)
+        self.level_menu_model = Menu_Model(["1: Let's Go","lvl2","lvl3","lvl4","lvl5","lvl6","lvl7","lvl8"], "Choose a level", 50)
         self.level_menu_view = Menu_View(self.screen, self.level_menu_model)
         self.level_menu_controller = Level_Menu_Controller(self.level_menu_model, self.screen)
         
