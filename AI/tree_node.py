@@ -143,7 +143,7 @@ class Search:
 
             queue = deque(sorted(queue, key=lambda x: x[1], reverse=True))
 
-            visited.add(node.state)
+            #visited.add(node.state)
 
         return None
 
