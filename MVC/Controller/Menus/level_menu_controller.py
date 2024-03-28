@@ -54,10 +54,10 @@ class Level_Menu_Controller:
         self.level_view = Level_View(self.level_model, self.screen)
         self.level_controller = Level_Controller(self.level_model)
         
-        state = Sokobond_State(self.level_model)
-        goal = Search.a_star_search(state, Heuristic.manhattan_distance)
-        self.moves = Search.get_solution_moves(goal)
-        Search.print_solution(goal)
+        # state = Sokobond_State(self.level_model)
+        # goal = Search.a_star_search(state, Heuristic.manhattan_distance)
+        # self.moves = Search.get_solution_moves(goal)
+        # Search.print_solution(goal)
     
     def play_level(self):
         if len(self.moves) != 0:
