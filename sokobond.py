@@ -7,7 +7,7 @@ from MVC.Model.menu_model import Menu_Model
 from MVC.View.menu_view import Menu_View
 from MVC.Controller.Menus.main_menu_controller import Main_Menu_Controller
 from AI.sokobond_state import Sokobond_State
-from AI.tree_node import Search, TreeNode
+from AI.tree_node import Search, Heuristic
 import utils as utils
 
 # Constants
@@ -59,7 +59,8 @@ class Game:
         #print("DFS DONE //////////////////////////////////////")
 
         state = Sokobond_State(self.level_model)
-        goal = Search.iterative_deepening_search(state, 10)
+        #goal = Search.iterative_deepening_search(state, 10)
+        goal = Search.greedy_search(state, Heuristic.prioritize_free_electrons)
         Search.print_solution(goal)
 
         while (not self.level_model.won):
