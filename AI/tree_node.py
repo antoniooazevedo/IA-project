@@ -94,6 +94,7 @@ class Search:
 
     def greedy_search(initial_state, heuristic):
         root = TreeNode(initial_state)
+        root.depth = 0
         queue = deque([(root, heuristic(root.state))])
         visited = set()
 
@@ -101,6 +102,7 @@ class Search:
             (node, _) = queue.popleft()
 
             if (node.state.is_goal()):
+                print(node.depth)
                 return node
             
             if node.state in visited:
@@ -109,6 +111,7 @@ class Search:
             for move, state in node.state.child_states():
                 local_cost = heuristic(state)
                 child_node = TreeNode(state)
+                child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
                 queue.append((child_node, local_cost))
 
@@ -126,9 +129,10 @@ class Search:
 
         while queue:
             queue = deque(sorted(queue, key=lambda x: x[1], reverse=True))
-            (node,_) = queue.popleft()
+            (node,val) = queue.popleft()
 
             if (node.state.is_goal()):
+                print(node.depth)
                 return node
 
             if node.state in visited:
@@ -176,6 +180,9 @@ class Heuristic:
         
         for a in player.get_atoms():
             cost += a.get_electrons()
+            
+        if cost == 0:
+            return -1000
             
         return cost
                 

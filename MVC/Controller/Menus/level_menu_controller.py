@@ -50,8 +50,8 @@ class Level_Menu_Controller:
         
         state = Sokobond_State(self.level_model)
         goal = Search.greedy_search(state, Heuristic.prioritize_free_electrons)
-        #self.moves = Search.get_solution_moves(goal)
-        Search.print_solution(goal)
+        self.moves = Search.get_solution_moves(goal)
+        #Search.print_solution(goal)
     
     def play_level(self):
         if len(self.moves) != 0:
