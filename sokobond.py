@@ -25,7 +25,7 @@ class Game:
         self.screen = pg.display.set_mode(WINDOW_SIZE)
 
         self.clock = pg.time.Clock()
-        self.fps = 60;
+        self.fps = 60
 
     def run(self):
         
@@ -79,4 +79,4 @@ class Game:
         pg.quit()
         sys.exit()
 
-Game().run();
+Game().run()

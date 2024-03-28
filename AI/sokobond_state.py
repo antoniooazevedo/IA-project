@@ -1,7 +1,5 @@
 import copy
-from MVC.Model.level_model import Level_Model
 from MVC.Controller.level_controller import Level_Controller
-from MVC.Controller.Entities.molecule_controller import Molecule_Controller
 from MVC.Model.Entities.molecule_model import Molecule_Model
 from MVC.Model.Entities.wall_model import Wall_Model
 
