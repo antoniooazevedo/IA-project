@@ -47,15 +47,6 @@ class Level_Controller:
                     self.player_move('left')
                 elif event.key == pg.K_RIGHT or event.key == pg.K_d:
                     self.player_move('right')
-                elif event.key == pg.K_p:
-                    x = 0
-                    y = 0
-                    for row in self.model.matrix:
-                        for entity in row:
-                            print(f"({x}, {y}): {entity}")
-                            x += 1
-                        x = 0
-                        y += 1
                         
         self.connect_molecules()
 
@@ -63,8 +54,6 @@ class Level_Controller:
         self.player_move(move)
         self.connect_molecules()
         self.check_win()                        
-
-    
 
     def remove_old_molecules(self):
         self.model.molecules = []

@@ -9,9 +9,10 @@ from AI.sokobond_state import Sokobond_State
 from AI.tree_node import Search, Heuristic
 
 class Level_Menu_Controller:
-    def __init__(self, menu_model: Menu_Model, screen):
+    def __init__(self, menu_model: Menu_Model, screen, play_type):
         self.model = menu_model
         self.screen = screen
+        self.play_type = play_type
         self.playing = False
         self.moves = []
         
@@ -21,6 +22,7 @@ class Level_Menu_Controller:
         if self.playing:
             self.play_level()
             return True
+        
         else:    
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -54,16 +56,22 @@ class Level_Menu_Controller:
         self.level_view = Level_View(self.level_model, self.screen)
         self.level_controller = Level_Controller(self.level_model)
         
-        # state = Sokobond_State(self.level_model)
-        # goal = Search.a_star_search(state, Heuristic.manhattan_distance)
-        # self.moves = Search.get_solution_moves(goal)
-        # Search.print_solution(goal)
+        if self.play_type == "AI":
+            self.create_AI()
+
+    def create_AI(self):
+        state = Sokobond_State(self.level_model)
+        goal = Search.a_star_search(state, Heuristic.manhattan_distance)
+        self.moves = Search.get_solution_moves(goal)
     
     def play_level(self):
-        if len(self.moves) != 0:
-            move = self.moves.pop(0)
-            self.level_controller.handle_AIevents(move)
-            pg.time.wait(200)
+        
+        if self.play_type == "AI":
+            if len(self.moves) != 0:
+                move = self.moves.pop(0)
+                pg.time.wait(150)
+                self.level_controller.handle_AIevents(move)
+                pg.time.wait(150)
 
         
         self.level_controller.handle_events()
@@ -74,7 +82,16 @@ class Level_Menu_Controller:
         self.level_controller.check_win()
         
         if self.level_model.won:
-            self.playing = False
-            return False
+            
+            while (self.playing):
+                
+                self.level_view.draw_end_of_level()
+                pg.display.update()
+                
+                for event in pg.event.get():
+                    if event.type == pg.KEYDOWN:
+                        if event.key == pg.K_RETURN:
+                            self.playing = False
+                            return False
     
         return True

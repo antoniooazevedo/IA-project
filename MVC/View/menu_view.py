@@ -5,9 +5,11 @@ from MVC.Model.menu_model import Menu_Model
 
 class Menu_View:
     
-    def __init__(self, screen, menu_model: Menu_Model):
+    def __init__(self, screen, menu_model: Menu_Model, n_columns):
         self.screen = screen
         self.model = menu_model
+        self.n_columns = n_columns
+        
         pg.font.init()
         font_path = "assets/fonts/RhodiumLibre-Regular.ttf"
         self.bigFont = pg.font.Font(font_path, 100)
@@ -22,39 +24,24 @@ class Menu_View:
     def draw_options(self):
         options_count = len(self.model.options)
         option_height = self.optionFont.get_height()
-        total_height = (options_count // 2 + options_count % 2) * option_height
-        start_y = (600 - total_height) // 2 + 100  # 100 is the height of the bigText
+        total_height = ((options_count + self.n_columns - 1) // self.n_columns) * option_height
+        start_y = (600 - total_height) // 2 + 100  
 
         for i in range(options_count):
             text = self.optionFont.render(self.model.options[i], True, (0, 0, 0))
             text_width = text.get_width()
-            column = i % 2
-            row = i // 2
-            x = (400 - text_width) // 2 + column * 400
+            column = i % self.n_columns
+            row = i // self.n_columns
+            x = (800 // self.n_columns - text_width) // 2 + column * (800 // self.n_columns)
             y = start_y + row * option_height
             self.screen.blit(text, (x, y))
+            if i == self.model.selected:
+                pg.draw.rect(self.screen, (0, 0, 0), (x - 10, y - 10, text_width + 20, option_height + 5), 3)
 
-            
-    def draw_selected(self):
-        options_count = len(self.model.options)
-        option_height = self.optionFont.get_height()
-        total_height = (options_count // 2 + options_count % 2) * option_height
-        start_y = (600 - total_height) // 2 + 100  # 100 is the height of the bigText
-
-        text = self.optionFont.render(">", True, (0, 0, 0))
-        text_width = text.get_width()
-        column = self.model.selected % 2
-        row = self.model.selected // 2
-        x = (400 - text_width) // 2 + column * 400 - 100
-        y = start_y + row * option_height
-        self.screen.blit(text, (x, y))
         
+            
     def draw(self):
         self.screen.fill((255,255,255))
         self.draw_big_text()
-        
-        for i in range(len(self.model.options)):
-            self.draw_options()
-        
-        self.draw_selected()
+        self.draw_options()
             

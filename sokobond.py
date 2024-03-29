@@ -29,8 +29,8 @@ class Game:
 
     def run(self):
         
-        main_menu_model = Menu_Model(["Play", "Quit"], "SOKOBOND", 50)
-        main_menu_view = Menu_View(self.screen, main_menu_model)
+        main_menu_model = Menu_Model(["Play as Player", "Play AI", "Quit"], "SOKOBOND", 50)
+        main_menu_view = Menu_View(self.screen, main_menu_model, 1)
         main_menu_controller = Main_Menu_Controller(main_menu_model, self.screen)
 
         while True:

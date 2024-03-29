@@ -14,8 +14,8 @@ class Main_Menu_Controller:
         self.on_level_menu = False
         
         self.level_menu_model = Menu_Model(["Level 1","Level 2","Level 3","Level 4","Level 5","Level 6","Level 7","Level 8"], "Choose a level", 50)
-        self.level_menu_view = Menu_View(self.screen, self.level_menu_model)
-        self.level_menu_controller = Level_Menu_Controller(self.level_menu_model, self.screen)
+        self.level_menu_view = Menu_View(self.screen, self.level_menu_model, 2)
+        self.level_menu_controller = Level_Menu_Controller(self.level_menu_model, self.screen, "Player")
         
     def handle_events(self):
         
@@ -34,10 +34,20 @@ class Main_Menu_Controller:
                         self.model.selected = (self.model.selected + 1) % len(self.model.options)
                     if event.key == pg.K_LEFT:
                         self.model.selected = (self.model.selected - 1) % len(self.model.options)
+                    if event.key == pg.K_UP:
+                        self.model.selected = (self.model.selected - 1) % len(self.model.options)
+                    if event.key == pg.K_DOWN:
+                        self.model.selected = (self.model.selected + 1) % len(self.model.options)
+                    
+                    
                     if event.key == pg.K_RETURN:
                         if self.model.selected == 0:
+                            self.level_menu_controller = Level_Menu_Controller(self.level_menu_model, self.screen, "Player")
                             self.on_level_menu = True 
                         if self.model.selected == 1:
+                            self.level_menu_controller = Level_Menu_Controller(self.level_menu_model, self.screen, "AI")
+                            self.on_level_menu = True
+                        if self.model.selected == 2:
                             pg.quit()
                             sys.exit()
                     if event.key == pg.K_ESCAPE:
