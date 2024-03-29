@@ -71,7 +71,7 @@ class Level_View:
     def draw_creating_AI(self):
         font = pg.font.Font("assets/fonts/RhodiumLibre-Regular.ttf", 50)
         
-        text1 = font.render("Creating AI...", True, (0, 0, 0))
+        text1 = font.render("Solving using AI...", True, (0, 0, 0))
         text1_width = text1.get_width()
         text1_height = text1.get_height()
         x1 = (800 - text1_width) // 2  

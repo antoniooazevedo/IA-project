@@ -169,7 +169,7 @@ class Search:
 
 class Heuristic:
     def prioritize_free_electrons(state):
-        cost = 0
+        value = 0
         
         if state.is_goal():
             return 1000
@@ -177,15 +177,15 @@ class Heuristic:
         player = state.level.get_player_molecule()
         
         for a in player.get_atoms():
-            cost += a.get_electrons()
+            value += a.get_electrons()
             
-        if cost == 0:
+        if value == 0:
             return -1000
             
-        return cost
+        return value
                 
     def manhattan_distance(state):
-        value = 100
+        value = 30
         
         if state.is_goal():
             return 1000
@@ -198,7 +198,7 @@ class Heuristic:
             electrons += p.get_electrons()
         
         if electrons == 0:
-            return 0    
+            return -1000    
                
         atoms = []
         
