@@ -12,7 +12,7 @@ class Main_Menu_Controller:
         self.model = menu_model
         self.screen = screen
         
-        self.ai_type = "Greedy - Manhattan Distance"
+        self.ai_type = "A* - Manhattan Distance"
         
         self.on_level_menu = False
         self.on_ai_menu = False

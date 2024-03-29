@@ -25,6 +25,7 @@ class Level_Menu_Controller:
         if self.playing:
             if self.solve_level_ai:
                 self.level_view.draw_creating_AI()
+                pg.display.update()
                 self.create_AI()
                 self.solve_level_ai = False
                 return self.solve_level()
@@ -78,8 +79,6 @@ class Level_Menu_Controller:
         
         goal = None
         
-        print(self.ai_type)
-        
         if self.ai_type == "BFS":
             goal = Search.breadth_first_search(state)
         elif self.ai_type == "DFS":
@@ -89,18 +88,21 @@ class Level_Menu_Controller:
         elif self.ai_type == "Iterative Deepening":
             goal = Search.iterative_deepening_search(state, 24)
         elif self.ai_type == "Greedy - Manhattan Distance":
-            goal = Search.greedy_search(state, Heuristic.manhattan_distance(state))
+            goal = Search.greedy_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "Greedy - Free Electrons":
-            goal = Search.greedy_search(state, Heuristic.free_electrons(state))
+            goal = Search.greedy_search(state, Heuristic.free_electrons)
         elif self.ai_type == "Greedy - Still to Implement":
             goal = Search.greedy_search(state, Heuristic.still_to_implement)
         elif self.ai_type == "A* - Manhattan Distance":
-            goal = Search.a_star(state, Heuristic.manhattan_distance(state))
+            goal = Search.a_star_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "A* - Free Electrons":
-            goal = Search.a_star(state, Heuristic.free_electrons(state))
+            goal = Search.a_star_search(state, Heuristic.free_electrons)
         elif self.ai_type == "A* - Still to Implement":
-            goal = Search.a_star(state, Heuristic.still_to_implement)
+            goal = Search.a_star_search(state, Heuristic.still_to_implement)
         
+        if goal == None:
+            print("Impossible to complete from this position")
+            return
         self.moves = Search.get_solution_moves(goal)
     
     def solve_level(self):
