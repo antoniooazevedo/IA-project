@@ -91,14 +91,14 @@ class Level_Menu_Controller:
             goal = Search.greedy_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "Greedy - Free Electrons":
             goal = Search.greedy_search(state, Heuristic.free_electrons)
-        elif self.ai_type == "Greedy - Still to Implement":
-            goal = Search.greedy_search(state, Heuristic.still_to_implement)
+        elif self.ai_type == "Greedy - Minimize Free Electrons":
+            goal = Search.greedy_search(state, Heuristic.minimize_free_electrons)
         elif self.ai_type == "A* - Manhattan Distance":
             goal = Search.a_star_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "A* - Free Electrons":
             goal = Search.a_star_search(state, Heuristic.free_electrons)
-        elif self.ai_type == "A* - Still to Implement":
-            goal = Search.a_star_search(state, Heuristic.still_to_implement)
+        elif self.ai_type == "A* - Minimize Free Electrons":
+            goal = Search.a_star_search(state, Heuristic.minimize_free_electrons)
         
         if goal == None:
             print("Impossible to complete from this position")

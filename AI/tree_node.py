@@ -214,4 +214,19 @@ class Heuristic:
             
         return value
                     
+    def minimize_free_electrons(state):
+        value = 10
+        
+        if state.is_goal():
+            return 1000
+        
+        player = state.level.get_player_molecule()
+        
+        for a in player.get_atoms():
+            value -= a.get_electrons()
+            
+        if value == 0:
+            return -1000
+            
+        return value
     

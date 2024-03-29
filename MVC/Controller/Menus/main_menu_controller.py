@@ -12,7 +12,7 @@ class Main_Menu_Controller:
         self.model = menu_model
         self.screen = screen
         
-        self.ai_type = "A* - Manhattan Distance"
+        self.ai_type = "Greedy - Minimize Free Electrons"
         
         self.on_level_menu = False
         self.on_ai_menu = False
@@ -21,7 +21,7 @@ class Main_Menu_Controller:
         self.level_menu_view = Menu_View(self.screen, self.level_menu_model, 2)
         self.level_menu_controller = Level_Menu_Controller(self.level_menu_model, self.screen, self.ai_type)
         
-        self.ai_menu_model = Menu_Model(["BFS","DFS","Depth Limited","Iterative Deepening","Greedy - Manhattan Distance", "Greedy - Free Electrons","Greedy - Still to Implement" ,"A* - Manhattan Distance","A* - Free Electrons","A* - Still to Implement","Back"], "Choose an AI", 25)
+        self.ai_menu_model = Menu_Model(["BFS","DFS","Depth Limited","Iterative Deepening","Greedy - Manhattan Distance", "Greedy - Free Electrons","Greedy -  Minimize Free Electrons" ,"A* - Manhattan Distance","A* - Free Electrons","A* - Minimize Free Electrons","Back"], "Choose an AI", 25)
         self.ai_menu_view = Menu_View(self.screen, self.ai_menu_model, 2)
         self.ai_menu_controller = AI_Menu_Controller(self.ai_menu_model)
         
