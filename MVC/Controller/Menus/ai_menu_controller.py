@@ -6,7 +6,7 @@ from MVC.Model.menu_model import Menu_Model
 class AI_Menu_Controller:
     def __init__(self, menu_model: Menu_Model):
         self.model = menu_model
-        self.ai = None
+        self.ai = "A* - Manhattan Distance"
         
     def handle_events(self):
         for event in pg.event.get():
