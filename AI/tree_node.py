@@ -85,11 +85,9 @@ class Search:
 
     def iterative_deepening_search(initial_state, depth_limit):
         for local_limit in range(depth_limit+1):
-            print("Searching depth limit: ", local_limit)
             result = Search.depth_limited_search(initial_state, local_limit)
             if result is not None:
                 return result
-            print("No solution found at depth limit")
         return None
 
     def greedy_search(initial_state, heuristic):

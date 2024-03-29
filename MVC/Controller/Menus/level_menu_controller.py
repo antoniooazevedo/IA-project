@@ -61,7 +61,7 @@ class Level_Menu_Controller:
 
     def create_AI(self):
         state = Sokobond_State(self.level_model)
-        goal = Search.a_star_search(state, Heuristic.manhattan_distance)
+        goal = Search.greedy_search(state, Heuristic.manhattan_distance)
         self.moves = Search.get_solution_moves(goal)
     
     def play_level(self):

@@ -15,6 +15,12 @@ class Connection_Model:
         elif self.direction == 'left' or self.direction == 'right':
             return '-'
 
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.x == other.x and self.y == other.y and self.direction == other.direction
+        else:
+            return False
+
     
                  
         
