@@ -37,6 +37,9 @@ class Level_Model:
         self.won = False
         self.molecules = []
         self.scrape_level(level)
+        
+        self.get_tip = False
+        self.solve_level_ai = False
     
     def scrape_level(self, level):
 

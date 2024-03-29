@@ -40,7 +40,8 @@ class Level_Controller:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit_level = True
-                if event.key == pg.K_UP or event.key == pg.K_w:
+                    return
+                elif event.key == pg.K_UP or event.key == pg.K_w:
                     self.player_move('up')
                 elif event.key == pg.K_DOWN or event.key == pg.K_s:
                     self.player_move('down')
@@ -48,6 +49,10 @@ class Level_Controller:
                     self.player_move('left')
                 elif event.key == pg.K_RIGHT or event.key == pg.K_d:
                     self.player_move('right')
+                elif event.key == pg.K_r:
+                    self.model.solve_level_ai = True
+                elif event.key == pg.K_t:
+                    self.model.get_tip = True
                         
         self.connect_molecules()
 

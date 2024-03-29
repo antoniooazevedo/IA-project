@@ -67,3 +67,19 @@ class Level_View:
         x2 = (800 - text2_width) // 2 
         y2 = 600 - text1_height - 50  
         self.screen.blit(text2, (x2, y2))
+        
+    def draw_creating_AI(self):
+        font = pg.font.Font("assets/fonts/RhodiumLibre-Regular.ttf", 50)
+        
+        text1 = font.render("Creating AI...", True, (0, 0, 0))
+        text1_width = text1.get_width()
+        text1_height = text1.get_height()
+        x1 = (800 - text1_width) // 2  
+        y1 = 600 - text1_height * 2 - 50 
+        self.screen.blit(text1, (x1, y1))
+        
+        text2 = font.render("Please wait.", True, (0, 0, 0))
+        text2_width = text2.get_width()
+        x2 = (800 - text2_width) // 2 
+        y2 = 600 - text1_height - 50  
+        self.screen.blit(text2, (x2, y2))
