@@ -33,7 +33,7 @@ class Menu_View:
             column = i % self.n_columns
             row = i // self.n_columns
             x = (800 // self.n_columns - text_width) // 2 + column * (800 // self.n_columns)
-            y = start_y + row * option_height
+            y = start_y + row * option_height - 10
             self.screen.blit(text, (x, y))
             if i == self.model.selected:
                 pg.draw.rect(self.screen, (0, 0, 0), (x - 10, y - 10, text_width + 20, option_height + 5), 3)

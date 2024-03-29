@@ -22,10 +22,10 @@ class AI_Menu_Controller:
                     self.model.selected = (self.model.selected + 1) % len(self.model.options)
                     return True
                 if event.key == pg.K_UP:
-                    self.model.selected = (self.model.selected - 2) % len(self.model.options)
+                    self.model.selected = (self.model.selected - 1) % len(self.model.options)
                     return True
                 if event.key == pg.K_DOWN:
-                    self.model.selected = (self.model.selected + 2) % len(self.model.options)
+                    self.model.selected = (self.model.selected + 1) % len(self.model.options)
                     return True
                 if event.key == pg.K_RETURN:
                     self.select_ia()

@@ -28,7 +28,13 @@ class Level_Menu_Controller:
                 pg.display.update()
                 self.create_AI()
                 self.solve_level_ai = False
+                
+                if self.moves == []:
+                    self.level_model.won = False
+                    return self.end_of_level(False)
+                
                 return self.solve_level()
+            
             elif self.get_tip:
                 self.create_AI()
                 self.get_tip = False
@@ -90,19 +96,19 @@ class Level_Menu_Controller:
         elif self.ai_type == "Greedy - Manhattan Distance":
             goal = Search.greedy_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "Greedy - Free Electrons":
-            goal = Search.greedy_search(state, Heuristic.free_electrons)
+            goal = Search.greedy_search(state, Heuristic.prioritize_free_electrons)
         elif self.ai_type == "Greedy - Minimize Free Electrons":
             goal = Search.greedy_search(state, Heuristic.minimize_free_electrons)
         elif self.ai_type == "A* - Manhattan Distance":
             goal = Search.a_star_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "A* - Free Electrons":
-            goal = Search.a_star_search(state, Heuristic.free_electrons)
+            goal = Search.a_star_search(state, Heuristic.prioritize_free_electrons)
         elif self.ai_type == "A* - Minimize Free Electrons":
             goal = Search.a_star_search(state, Heuristic.minimize_free_electrons)
         
         if goal == None:
-            print("Impossible to complete from this position")
             return
+    
         self.moves = Search.get_solution_moves(goal)
     
     def solve_level(self):
@@ -115,14 +121,18 @@ class Level_Menu_Controller:
             pg.display.update()
         
         self.level_model.won = True
-        return self.end_of_level()
+        return self.end_of_level(True)
         
           
-    def end_of_level(self):
+    def end_of_level(self, result):
         
         while (self.playing):
             
-            self.level_view.draw_end_of_level()
+            self.level_view.draw()
+            if (result):
+                self.level_view.draw_end_of_level_win()
+            else:
+                self.level_view.draw_end_of_level_lose()
             pg.display.update()
             
             for event in pg.event.get():
@@ -153,6 +163,6 @@ class Level_Menu_Controller:
         self.level_controller.check_win()
         
         if self.level_model.won:
-            return self.end_of_level()
+            return self.end_of_level(True)
     
         return True

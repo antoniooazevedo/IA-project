@@ -69,7 +69,6 @@ class Search:
             count += 1
 
             if (node.state.is_goal()):
-                print("Nodes visited: ", count)
                 return node
 
             if depth == depth_limit:
@@ -80,7 +79,6 @@ class Search:
                 node.add_child(child_node, move)
                 stack.append((child_node, depth + 1))
 
-        print("Nodes visited: ", count)
         return None
 
     def iterative_deepening_search(initial_state, depth_limit):
@@ -100,7 +98,6 @@ class Search:
             (node, _) = queue.popleft()
 
             if (node.state.is_goal()):
-                print(node.depth)
                 return node
             
             if node.state in visited:
@@ -130,7 +127,6 @@ class Search:
             (node,val) = queue.popleft()
 
             if (node.state.is_goal()):
-                print(node.depth)
                 return node
 
             if node.state in visited:
