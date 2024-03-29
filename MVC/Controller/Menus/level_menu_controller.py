@@ -9,19 +9,36 @@ from AI.sokobond_state import Sokobond_State
 from AI.tree_node import Search, Heuristic
 
 class Level_Menu_Controller:
-    def __init__(self, menu_model: Menu_Model, screen, play_type):
+    def __init__(self, menu_model: Menu_Model, screen, ai_type):
         self.model = menu_model
         self.screen = screen
-        self.play_type = play_type
+        self.ai_type = ai_type
+        
         self.playing = False
+        self.get_tip = False
+        self.solve_level_ai = False
         self.moves = []
         
         
     def handle_events(self):
         
         if self.playing:
-            self.play_level()
-            return True
+            if self.solve_level_ai:
+                self.level_view.draw_creating_AI()
+                self.create_AI()
+                self.solve_level_ai = False
+                return self.solve_level()
+            elif self.get_tip:
+                self.create_AI()
+                self.get_tip = False
+                move = self.moves.pop(0)
+                pg.time.wait(150)
+                self.level_controller.handle_AIevents(move)
+                pg.time.wait(150)
+                self.level_view.draw()
+                pg.display.update()
+            else:
+                return self.play_level()
         
         else:    
             for event in pg.event.get():
@@ -55,30 +72,78 @@ class Level_Menu_Controller:
         self.level_model = Level_Model(level)
         self.level_view = Level_View(self.level_model, self.screen)
         self.level_controller = Level_Controller(self.level_model)
-        
-        if self.play_type == "AI":
-            self.create_AI()
 
     def create_AI(self):
         state = Sokobond_State(self.level_model)
-        goal = Search.a_star_search(state, Heuristic.manhattan_distance)
+        
+        goal = None
+        
+        print(self.ai_type)
+        
+        if self.ai_type == "BFS":
+            goal = Search.breadth_first_search(state)
+        elif self.ai_type == "DFS":
+            goal = Search.depth_first_search(state)
+        elif self.ai_type == "Depth Limited":
+            goal = Search.depth_limited_search(state, 25)
+        elif self.ai_type == "Iterative Deepening":
+            goal = Search.iterative_deepening_search(state, 24)
+        elif self.ai_type == "Greedy - Manhattan Distance":
+            goal = Search.greedy_search(state, Heuristic.manhattan_distance(state))
+        elif self.ai_type == "Greedy - Free Electrons":
+            goal = Search.greedy_search(state, Heuristic.free_electrons(state))
+        elif self.ai_type == "Greedy - Still to Implement":
+            goal = Search.greedy_search(state, Heuristic.still_to_implement)
+        elif self.ai_type == "A* - Manhattan Distance":
+            goal = Search.a_star(state, Heuristic.manhattan_distance(state))
+        elif self.ai_type == "A* - Free Electrons":
+            goal = Search.a_star(state, Heuristic.free_electrons(state))
+        elif self.ai_type == "A* - Still to Implement":
+            goal = Search.a_star(state, Heuristic.still_to_implement)
+        
         self.moves = Search.get_solution_moves(goal)
+    
+    def solve_level(self):
+        while len(self.moves) != 0:
+            move = self.moves.pop(0)
+            pg.time.wait(150)
+            self.level_controller.handle_AIevents(move)
+            pg.time.wait(150)
+            self.level_view.draw()
+            pg.display.update()
+        
+        self.level_model.won = True
+        return self.end_of_level()
+        
+          
+    def end_of_level(self):
+        
+        while (self.playing):
+            
+            self.level_view.draw_end_of_level()
+            pg.display.update()
+            
+            for event in pg.event.get():
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_RETURN:
+                        self.playing = False
+                        return False
+    
     
     def play_level(self):
         
         if self.level_controller.quit_level:
             self.playing = False
             return False
-       
-        if self.play_type == "AI":
-            if len(self.moves) != 0:
-                move = self.moves.pop(0)
-                pg.time.wait(150)
-                self.level_controller.handle_AIevents(move)
-                pg.time.wait(150)
 
-        else:
-            self.level_controller.handle_events()
+        self.level_controller.handle_events()
+        if (self.level_model.get_tip):
+            self.get_tip = True
+            self.level_model.get_tip = False
+            
+        elif (self.level_model.solve_level_ai):
+            self.solve_level_ai = True
+            self.level_model.solve_level_ai = False
 
         self.level_view.draw()
         pg.display.update()
@@ -86,16 +151,6 @@ class Level_Menu_Controller:
         self.level_controller.check_win()
         
         if self.level_model.won:
-            
-            while (self.playing):
-                
-                self.level_view.draw_end_of_level()
-                pg.display.update()
-                
-                for event in pg.event.get():
-                    if event.type == pg.KEYDOWN:
-                        if event.key == pg.K_RETURN:
-                            self.playing = False
-                            return False
+            return self.end_of_level()
     
         return True

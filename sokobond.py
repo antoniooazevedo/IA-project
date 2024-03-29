@@ -36,7 +36,7 @@ class Game:
         while True:
             main_menu_controller.handle_events()
             
-            if (not main_menu_controller.on_level_menu) and (not main_menu_controller.level_menu_controller.playing):
+            if (not main_menu_controller.on_level_menu) and (not main_menu_controller.level_menu_controller.playing) and (not main_menu_controller.on_ai_menu):
                 main_menu_view.draw()
                 pg.display.update()
             
