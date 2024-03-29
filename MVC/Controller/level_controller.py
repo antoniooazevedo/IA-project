@@ -11,6 +11,7 @@ class Level_Controller:
     def __init__(self, level_model: Level_Model):
         self.model = level_model
         self.connect_molecules()
+        self.quit_level = False
         
     def check_win(self):
         
@@ -38,7 +39,8 @@ class Level_Controller:
         for event in pg.event.get():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
-                    self.model.won = True
+                    self.quit_level = True
+                    print("quit level")
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     self.player_move('up')
                 elif event.key == pg.K_DOWN or event.key == pg.K_s:

@@ -66,6 +66,10 @@ class Level_Menu_Controller:
     
     def play_level(self):
         
+        if self.level_controller.quit_level:
+            self.playing = False
+            return False
+       
         if self.play_type == "AI":
             if len(self.moves) != 0:
                 move = self.moves.pop(0)
@@ -73,8 +77,8 @@ class Level_Menu_Controller:
                 self.level_controller.handle_AIevents(move)
                 pg.time.wait(150)
 
-        
-        self.level_controller.handle_events()
+        else:
+            self.level_controller.handle_events()
 
         self.level_view.draw()
         pg.display.update()
