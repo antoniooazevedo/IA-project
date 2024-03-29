@@ -40,7 +40,6 @@ class Level_Controller:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit_level = True
-                    print("quit level")
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     self.player_move('up')
                 elif event.key == pg.K_DOWN or event.key == pg.K_s:
