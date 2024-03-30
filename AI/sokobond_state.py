@@ -10,25 +10,27 @@ class Sokobond_State:
         self.level = level
 
     def __eq__(self, other):
-        connections = []
-        for m in self.level.molecules:
-            connections.extend(m.get_connections())
-
-        other_connections = []
-        for m in other.level.molecules:
-            other_connections.extend(m.get_connections())
-
         if isinstance(other, self.__class__):
-            sameConnections = True
+            if self.__str__() == other.__str__():
+                connections = []
+                for m in self.level.molecules:
+                    connections.extend(m.get_connections())
 
-            for c in connections:
-                innerTest = False
-                for o in other_connections:
-                    innerTest = innerTest or c == o
+                other_connections = []
+                for m in other.level.molecules:
+                    other_connections.extend(m.get_connections())
+                    sameConnections = True
 
-                sameConnections = sameConnections and innerTest
+                for c in connections:
+                    innerTest = False
+                    for o in other_connections:
+                        innerTest = innerTest or c == o
 
-            return (self.__str__() == other.__str__()) and sameConnections
+                    sameConnections = sameConnections and innerTest
+
+                return sameConnections
+            else:
+                return False
         else:
             return False
 
