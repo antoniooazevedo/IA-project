@@ -9,6 +9,9 @@ from AI.sokobond_state import Sokobond_State
 from AI.tree_node import Search, Heuristic
 import utils as utils
 import time
+from memory_profiler import memory_usage
+import pandas as pd
+
 
 # Constants
 WIDTH, HEIGHT = 800, 600
@@ -30,21 +33,25 @@ class Game:
         self.fps = 60
 
     def run(self):
-
-        #main_menu_model = Menu_Model(["Play", "Choose AI", "Quit"], "SOKOBOND", 50)
-        #main_menu_view = Menu_View(self.screen, main_menu_model, 1)
-        #main_menu_controller = Main_Menu_Controller(main_menu_model, self.screen)
-
         self.level_model = Level_Model(self.levelName)
         self.level_controller = Level_Controller(self.level_model) 
         state = Sokobond_State(self.level_model)
         start_time = time.time()
-        goal = self.create_AI(state)
+        mem_usage, return_val = memory_usage((self.create_AI, (state,)), retval=True, max_usage=True)
+        goal = return_val
         end_time = time.time()
 
-        execution_time = end_time - start_time
+        execution_time, mem_usage, goal_depth = end_time - start_time, mem_usage, goal.depth
 
-        return execution_time
+        data = pd.DataFrame({
+            'Algorithm': [self.ai_type],
+            'Execution time': [execution_time],
+            'Memory usage': [mem_usage],
+            'Depth': [goal_depth]
+        })
+
+
+        return data, execution_time, mem_usage, goal_depth
     
         #while (not self.level_model.won):
         #    
@@ -84,14 +91,29 @@ class Game:
         self.moves = Search.get_solution_moves(goal)     
 
         return goal   
-    
-
-algorithms = ["A* - Manhattan Distance", "A* - Free Electrons"]
-levels = ["lvl1.txt", "lvl2.txt", "lvl3.txt", "lvl6.txt", "lvl7.txt", "lvl8.txt"]
 
 
-for algorithm in algorithms:
-    for level in levels:
+
+algorithms = ["BFS", "DFS","Depth Limited", "Iterative Deepening", "Greedy - Manhattan Distance",
+               "Greedy - Free Electrons", "Greedy - Minimize Free Electrons", "A* - Manhattan Distance",
+               "A* - Free Electrons", "A* - Minimize Free Electrons"]
+
+levels = ["lvl3.txt", "lvl4.txt", "lvl5.txt", "lvl6.txt", "lvl7.txt", "lvl8.txt"]
+results = {}
+
+for level in levels:
+    for algorithm in algorithms:
+        if algorithm in ["Iterative Deepening", "Depth Limited"] and level not in ["lvl1.txt", "lvl2.txt", "lvl6.txt"]:
+            continue
         game = Game(algorithm, level)
-        execution_time = game.run()
-        print(f"Algorithm: {algorithm}, Level: {level}, Execution time: {execution_time}")
+        data, execution_time, mem_usage, depth = game.run()
+        print(f"Algorithm: {algorithm}, Level: {level}, Execution time: {execution_time}, Memory usage: {mem_usage} MiB, Depth: {depth}")
+        if level not in results:
+            results[level] = []
+        results[level].append(data)
+
+# Write the results to an Excel file
+file_path = "sokobond_results.xlsx"
+with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
+    for level, dataframes in results.items():
+        pd.concat(dataframes).to_excel(writer, sheet_name=f'level{level}', index=False)

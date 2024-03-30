@@ -21,7 +21,9 @@ class Search:
 
     def breadth_first_search(initial_state):
         root = TreeNode(initial_state)
+        root.depth = 0
         queue = deque([root])
+        visited = set()
 
         while queue:
             node = queue.popleft()
@@ -31,13 +33,18 @@ class Search:
 
             for move, state in node.state.child_states():
                 child_node = TreeNode(state)
+                child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
                 queue.append(child_node)
+            
+            node.state.printState()
+            visited.add(node.state)
 
         return None
 
     def depth_first_search(initial_state):
         root = TreeNode(initial_state)
+        root.depth = 0
         stack = [root]
         visited = set()
 
@@ -52,6 +59,7 @@ class Search:
 
             for move, state in node.state.child_states():
                 child_node = TreeNode(state)
+                child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
                 stack.append(child_node)
 
@@ -61,6 +69,7 @@ class Search:
 
     def depth_limited_search(initial_state, depth_limit):
         root = TreeNode(initial_state)
+        root.depth = 0
         stack = [(root, 0)]
         count = 0
 
@@ -76,6 +85,7 @@ class Search:
 
             for move, state in node.state.child_states():
                 child_node = TreeNode(state)
+                child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
                 stack.append((child_node, depth + 1))
 
