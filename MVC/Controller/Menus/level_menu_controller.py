@@ -36,6 +36,8 @@ class Level_Menu_Controller:
                 return self.solve_level()
 
             elif self.get_tip:
+                self.level_view.draw_creating_AI()
+                pg.display.update()
                 self.create_AI()
                 self.get_tip = False
 
