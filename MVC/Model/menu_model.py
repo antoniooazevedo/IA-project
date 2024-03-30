@@ -1,5 +1,3 @@
-import pygame as pg
-
 class Menu_Model:
     def __init__(self, options, bigText, optionsFontSize):
         self.options = options
@@ -7,6 +5,3 @@ class Menu_Model:
         self.bigText = bigText
 
         self.selected = 0
-        
-    
-        

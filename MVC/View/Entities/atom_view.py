@@ -1,5 +1,4 @@
 import pygame as pg
-import sys
 import utils as utils
 from MVC.Model.Entities.atom_model import Atom_Model
 

@@ -1,7 +1,7 @@
 import pygame as pg
-import sys
 import utils as utils
 from MVC.Model.Entities.wall_model import Wall_Model
+
 
 class Wall_View:
     def __init__(self, wall_model: Wall_Model, screen, image):

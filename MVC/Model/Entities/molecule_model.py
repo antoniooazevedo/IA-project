@@ -1,8 +1,3 @@
-import pygame as pg
-import sys
-from MVC.Model.Entities.atom_model import Atom_Model
-from MVC.Model.Entities.connection_model import Connection_Model
-
 class Molecule_Model:
     def __init__(self, atoms, connections_list=None, isPlayer=False):
         self.isPlayer = isPlayer
@@ -14,21 +9,19 @@ class Molecule_Model:
             else:
                 connections = []
         self.molecule[atom] = connections
-        
+
     def get_molecule(self):
         return self
-        
+
     def get_atoms(self):
         return list(self.molecule.keys())
 
     def get_connections(self):
         ret = []
-        for _,v in self.molecule.items():
+        for _, v in self.molecule.items():
             ret.extend(v)
-        
+
         return ret
 
-    def __str__ (self):
+    def __str__(self):
         return str(self.molecule)
-    
-    
