@@ -28,6 +28,8 @@ class Sokobond_State:
                         innerTest = innerTest or c == o
 
                     sameConnections = sameConnections and innerTest
+                    if not sameConnections:
+                        break
 
                 return sameConnections
             else:
