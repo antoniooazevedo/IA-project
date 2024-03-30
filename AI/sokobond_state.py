@@ -19,7 +19,8 @@ class Sokobond_State:
                 other_connections = []
                 for m in other.level.molecules:
                     other_connections.extend(m.get_connections())
-                    sameConnections = True
+
+                sameConnections = True
 
                 for c in connections:
                     innerTest = False
