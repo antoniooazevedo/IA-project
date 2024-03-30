@@ -4,12 +4,16 @@ from collections import deque
 
 
 class TreeNode:
+
+    node_count = 0
+
     def __init__(self, state, move=None, parent=None):
         self.state = state
         self.move = move
         self.parent = parent
         self.children = []
         self.depth = 0
+        TreeNode.node_count += 1
 
     def add_child(self, child_node, move):
         self.children.append(child_node)
@@ -31,13 +35,15 @@ class Search:
             if node.state.is_goal():
                 return node
 
+            if node.state in visited:
+                continue
+
             for move, state in node.state.child_states():
                 child_node = TreeNode(state)
                 child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
                 queue.append(child_node)
             
-            node.state.printState()
             visited.add(node.state)
 
         return None
@@ -71,11 +77,15 @@ class Search:
         root = TreeNode(initial_state)
         root.depth = 0
         stack = [(root, 0)]
-        count = 0
+        visited = set()
 
         while stack:
             (node, depth) = stack.pop()
-            count += 1
+
+            if node.state in visited:
+                continue
+
+            visited.add(node.state)
 
             if node.state.is_goal():
                 return node

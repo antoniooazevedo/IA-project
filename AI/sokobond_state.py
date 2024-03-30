@@ -15,17 +15,20 @@ class Sokobond_State:
                 connections = []
                 for m in self.level.molecules:
                     connections.extend(m.get_connections())
+
                 other_connections = []
                 for m in other.level.molecules:
                     other_connections.extend(m.get_connections())
+
                 sameConnections = True
+
                 for c in connections:
                     innerTest = False
                     for o in other_connections:
-                        innerTest = innerTest or c == o
+                        innerTest = innerTest or (c == o)
+
                     sameConnections = sameConnections and innerTest
-                    if not sameConnections:
-                        break
+
                 return sameConnections
             else:
                 return False

@@ -6,11 +6,12 @@ from MVC.Model.level_model import Level_Model
 from MVC.View.level_view import Level_View
 from MVC.Controller.level_controller import Level_Controller
 from AI.sokobond_state import Sokobond_State
-from AI.tree_node import Search, Heuristic
+from AI.tree_node import Search, Heuristic, TreeNode
 import utils as utils
 import time
-from memory_profiler import memory_usage
 import pandas as pd
+from memory_profiler import memory_usage
+
 
 
 # Constants
@@ -37,21 +38,21 @@ class Game:
         self.level_controller = Level_Controller(self.level_model) 
         state = Sokobond_State(self.level_model)
         start_time = time.time()
-        mem_usage, return_val = memory_usage((self.create_AI, (state,)), retval=True, max_usage=True)
-        goal = return_val
+        goal = self.create_AI(state)
         end_time = time.time()
+        node_count = TreeNode.node_count
 
-        execution_time, mem_usage, goal_depth = end_time - start_time, mem_usage, goal.depth
+
+        execution_time, goal_depth = end_time - start_time, goal.depth
 
         data = pd.DataFrame({
             'Algorithm': [self.ai_type],
             'Execution time': [execution_time],
-            'Memory usage': [mem_usage],
+            'Nodes created': [node_count],
             'Depth': [goal_depth]
         })
 
-
-        return data, execution_time, mem_usage, goal_depth
+        return data, execution_time, node_count, goal_depth
     
         #while (not self.level_model.won):
         #    
@@ -62,8 +63,8 @@ class Game:
         #    self.level_controller.check_win()
 
     def create_AI(self, state):
+        TreeNode.node_count = 0
         goal = None
-
         if self.ai_type == "BFS":
             goal = Search.breadth_first_search(state)
         elif self.ai_type == "DFS":
@@ -87,10 +88,7 @@ class Game:
 
         if goal == None:
             return
-
-        self.moves = Search.get_solution_moves(goal)     
-
-        return goal   
+        return goal
 
 
 
@@ -98,16 +96,19 @@ algorithms = ["BFS", "DFS","Depth Limited", "Iterative Deepening", "Greedy - Man
                "Greedy - Free Electrons", "Greedy - Minimize Free Electrons", "A* - Manhattan Distance",
                "A* - Free Electrons", "A* - Minimize Free Electrons"]
 
-levels = ["lvl3.txt", "lvl4.txt", "lvl5.txt", "lvl6.txt", "lvl7.txt", "lvl8.txt"]
+levels = ["lvl1.txt", "lvl2.txt", "lvl3.txt", "lvl6.txt", "lvl7.txt", "lvl8.txt", "lvl4.txt", "lvl5.txt"]
 results = {}
 
 for level in levels:
     for algorithm in algorithms:
-        if algorithm in ["Iterative Deepening", "Depth Limited"] and level not in ["lvl1.txt", "lvl2.txt", "lvl6.txt"]:
+        if level not in results:
+            results[level] = []
+        if (algorithm in ["Iterative Deepening", "Depth Limited"] and level not in ["lvl1.txt", "lvl2.txt"]) or ((algorithm == "DFS" or algorithm == "Greedy - Free Electrons" or algorithm == "Greedy - Minimize Free Electrons") and level == "lvl5.txt"):
+            results[level].append(None)
             continue
         game = Game(algorithm, level)
-        data, execution_time, mem_usage, depth = game.run()
-        print(f"Algorithm: {algorithm}, Level: {level}, Execution time: {execution_time}, Memory usage: {mem_usage} MiB, Depth: {depth}")
+        data, execution_time, node_count, depth = game.run()
+        print(f"Algorithm: {algorithm}, Level: {level}, Execution time: {execution_time}, Nodes: {node_count} nodes, Depth: {depth}")
         if level not in results:
             results[level] = []
         results[level].append(data)
