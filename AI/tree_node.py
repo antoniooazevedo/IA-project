@@ -6,6 +6,7 @@ from collections import deque
 class TreeNode:
 
     node_count = 0
+    visit_count = 0
 
     def __init__(self, state, move=None, parent=None):
         self.state = state
@@ -45,6 +46,7 @@ class Search:
                 queue.append(child_node)
             
             visited.add(node.state)
+            TreeNode.visit_count += 1
 
         return None
 
@@ -70,34 +72,44 @@ class Search:
                 stack.append(child_node)
 
             visited.add(node.state)
+            TreeNode.visit_count += 1
 
         return None
 
     def depth_limited_search(initial_state, depth_limit):
         root = TreeNode(initial_state)
         root.depth = 0
-        stack = [(root, 0)]
+        stack = [root]
         visited = set()
+        count = 0
 
         while stack:
-            (node, depth) = stack.pop()
-
-            if node.state in visited:
-                continue
-
-            visited.add(node.state)
+            node = stack.pop()
 
             if node.state.is_goal():
                 return node
 
-            if depth == depth_limit:
+            test_depth = 0
+            if node.depth != 0:
+                test_depth = node.parent.depth + 1 
+
+            if (node.state, test_depth) in visited:
                 continue
 
+            node.depth = test_depth
+
+            if node.depth > depth_limit:
+                continue
+
+            count += 1
             for move, state in node.state.child_states():
                 child_node = TreeNode(state)
                 child_node.depth = node.depth + 1
                 node.add_child(child_node, move)
-                stack.append((child_node, depth + 1))
+                stack.append(child_node)
+
+            visited.add((node.state, node.depth))
+            TreeNode.visit_count += 1
 
         return None
 
@@ -133,6 +145,7 @@ class Search:
             queue = deque(sorted(queue, key=lambda x: x[1], reverse=True))
 
             visited.add(node.state)
+            TreeNode.visit_count += 1
 
         return None
 
@@ -162,6 +175,7 @@ class Search:
             queue = deque(sorted(queue, key=lambda x: x[1], reverse=True))
 
             visited.add(node.state)
+            TreeNode.visit_count += 1
 
         return None
 

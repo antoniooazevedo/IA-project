@@ -41,6 +41,7 @@ class Game:
         goal = self.create_AI(state)
         end_time = time.time()
         node_count = TreeNode.node_count
+        visited_count = TreeNode.visit_count
 
 
         execution_time, goal_depth = end_time - start_time, goal.depth
@@ -49,10 +50,11 @@ class Game:
             'Algorithm': [self.ai_type],
             'Execution time': [execution_time],
             'Nodes created': [node_count],
+            'Nodes visited': [visited_count],
             'Depth': [goal_depth]
         })
 
-        return data, execution_time, node_count, goal_depth
+        return data, execution_time, node_count, visited_count, goal_depth
     
         #while (not self.level_model.won):
         #    
@@ -64,6 +66,7 @@ class Game:
 
     def create_AI(self, state):
         TreeNode.node_count = 0
+        TreeNode.visit_count = 0
         goal = None
         if self.ai_type == "BFS":
             goal = Search.breadth_first_search(state)
@@ -92,29 +95,31 @@ class Game:
 
 
 
-algorithms = ["BFS", "DFS","Depth Limited", "Iterative Deepening", "Greedy - Manhattan Distance",
-               "Greedy - Free Electrons", "Greedy - Minimize Free Electrons", "A* - Manhattan Distance",
-               "A* - Free Electrons", "A* - Minimize Free Electrons"]
+algorithms = ["Greedy - Manhattan Distance", "Greedy - Minimize Free Electrons", "A* - Manhattan Distance",
+              "A* - Free Electrons", "A* - Minimize Free Electrons", "BFS", "DFS","Depth Limited", "Iterative Deepening", "Greedy - Free Electrons"]
 
-levels = ["lvl1.txt", "lvl2.txt", "lvl3.txt", "lvl6.txt", "lvl7.txt", "lvl8.txt", "lvl4.txt", "lvl5.txt"]
+levels = ["lvl5.txt", "lvl1.txt", "lvl2.txt", "lvl3.txt", "lvl6.txt", "lvl7.txt", "lvl8.txt", "lvl4.txt"]
 results = {}
 
 for level in levels:
     for algorithm in algorithms:
         if level not in results:
             results[level] = []
-        if (algorithm in ["Iterative Deepening", "Depth Limited"] and level not in ["lvl1.txt", "lvl2.txt"]) or ((algorithm == "DFS" or algorithm == "Greedy - Free Electrons" or algorithm == "Greedy - Minimize Free Electrons") and level == "lvl5.txt"):
-            results[level].append(None)
+        if algorithm == "Iterative Deepening" and level in ["lvl4.txt", "lvl5.txt"]:
+            continue
+        # Skip DFS for lvl5
+        if algorithm in ["DFS","Greedy - Free Electrons","Greedy - Minimize Free Electrons"]  and level == "lvl5.txt":
             continue
         game = Game(algorithm, level)
-        data, execution_time, node_count, depth = game.run()
-        print(f"Algorithm: {algorithm}, Level: {level}, Execution time: {execution_time}, Nodes: {node_count} nodes, Depth: {depth}")
+        data, execution_time, node_count, node_visited, depth = game.run()
+        print(f"Algorithm: {algorithm}, Level: {level}, Execution time: {execution_time}, Nodes created: {node_count} nodes, Nodes visited: {node_visited}  Depth: {depth}")
         if level not in results:
             results[level] = []
         results[level].append(data)
 
-# Write the results to an Excel file
-file_path = "sokobond_results.xlsx"
-with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
-    for level, dataframes in results.items():
-        pd.concat(dataframes).to_excel(writer, sheet_name=f'level{level}', index=False)
+        # Write the results to an Excel file
+        file_path = "sokobond_results.xlsx"
+        with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
+            for level, dataframes in results.items():
+                pd.concat(dataframes).to_excel(writer, sheet_name=f'level{level}', index=False)
+

@@ -105,7 +105,7 @@ class Level_Menu_Controller:
         elif self.ai_type == "Depth Limited":
             goal = Search.depth_limited_search(state, 25)
         elif self.ai_type == "Iterative Deepening":
-            goal = Search.iterative_deepening_search(state, 24)
+            goal = Search.iterative_deepening_search(state, 25)
         elif self.ai_type == "Greedy - Manhattan Distance":
             goal = Search.greedy_search(state, Heuristic.manhattan_distance)
         elif self.ai_type == "Greedy - Free Electrons":
