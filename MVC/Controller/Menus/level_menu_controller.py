@@ -170,8 +170,6 @@ class Level_Menu_Controller:
             return
 
         self.moves = Search.get_solution_moves(goal)
-        for m in self.moves:
-            print(m)
 
     def solve_level(self):
         """
