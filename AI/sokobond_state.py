@@ -27,7 +27,7 @@ class Sokobond_State:
         Compares two Sokobond_State objects for equality.
 
         Two Sokobond_State objects are considered equal if they are of the same class, 
-        their string representations are equal, and they have the same set of connections 
+        their string representations are equal and they have the same set of connections 
         between their molecules.
 
         Args:
