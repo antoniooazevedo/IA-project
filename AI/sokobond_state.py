@@ -6,10 +6,37 @@ from MVC.Model.Entities.wall_model import Wall_Model
 
 class Sokobond_State:
 
+    """
+    Class that represents a state of the Sokobond game.
+    """
+
     def __init__(self, level):
+
+        """
+        Initializes a Sokobond_State object.
+
+        Args:
+            level (Level_Model): The model of the level.
+        """
+
         self.level = level
 
     def __eq__(self, other):
+
+        """
+        Compares two Sokobond_State objects for equality.
+
+        Two Sokobond_State objects are considered equal if they are of the same class, 
+        their string representations are equal, and they have the same set of connections 
+        between their molecules.
+
+        Args:
+            other (Sokobond_State): The other Sokobond_State object to compare with.
+
+        Returns:
+            bool: True if the two Sokobond_State objects are equal, False otherwise.
+        """
+
         if isinstance(other, self.__class__):
             if self.__str__() == other.__str__():
                 connections = []
@@ -38,12 +65,35 @@ class Sokobond_State:
             return False
 
     def __ne__(self, other):
+        """
+        Compares two Sokobond_State objects for inequality.
+
+        This method uses the __eq__ method to determine if two Sokobond_State objects are equal, 
+        and then returns the opposite result.
+
+        Args:
+            other (Sokobond_State): The other Sokobond_State object to compare with.
+
+        Returns:
+            bool: True if the two Sokobond_State objects are not equal, False otherwise.
+        """
         return not self.__eq__(other)
 
     def __hash__(self):
+        """
+        Returns a hash value for a Sokobond_State object.
+
+        Returns:
+            int: The hash value of the Sokobond_State object.
+        """
         return hash(self.__str__())
 
     def __str__(self):
+
+        """
+        Returns a string representation of the Sokobond_State object, based
+        on the level's matrix.
+        """
         matrix_str = ""
         x = -1
         y = -1
@@ -66,33 +116,69 @@ class Sokobond_State:
         return matrix_str
 
     def printState(self):
+        """
+        Prints the string representation of the Sokobond_State object.
+        """
         print(self.__str__())
 
     def move_up(self):
+        """
+        Generates a new Sokobond_State object by moving the player's molecule up.
+
+        Returns:
+            Sokobond_State: The new Sokobond_State object.
+        """
+
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("up")
         return Sokobond_State(copy_level)
 
     def move_down(self):
+        """
+        Generates a new Sokobond_State object by moving the player's molecule down.
+
+        Returns:
+            Sokobond_State: The new Sokobond_State object.
+        """
+
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("down")
         return Sokobond_State(copy_level)
 
     def move_left(self):
+        """
+        Generates a new Sokobond_State object by moving the player's molecule left.
+
+        Returns:
+            Sokobond_State: The new Sokobond_State object.
+        """
+
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("left")
         return Sokobond_State(copy_level)
 
     def move_right(self):
+        """
+        Generates a new Sokobond_State object by moving the player's molecule right.
+
+        Returns:
+            Sokobond_State: The new Sokobond_State object.
+        """
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("right")
         return Sokobond_State(copy_level)
 
     def child_states(self):
+        """
+        Generates all possible child states of the current state with the possible operators.
+
+        Returns:
+            list: A list of tuples, where each tuple contains the direction of the operator and the new state.
+        """
         new_states = []
         if self.move_up():
             new_states.append(("up", self.move_up()))
@@ -105,6 +191,13 @@ class Sokobond_State:
         return new_states
 
     def is_goal(self):
+        """
+        Checks if the current state is a goal state and changes the won attribute of the level model.
+
+        Returns:
+            bool: True if the current state is a goal state, False otherwise.
+        """
+
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.check_win()

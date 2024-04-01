@@ -75,6 +75,7 @@ class Level_Menu_Controller:
                 if self.moves == []:
                     self.level_model.won = False
                     return self.end_of_level(False)
+                
 
                 move = self.moves.pop(0)
                 pg.time.wait(150)
@@ -82,6 +83,8 @@ class Level_Menu_Controller:
                 pg.time.wait(150)
                 self.level_view.draw()
                 pg.display.update()
+                self.moves = []
+
             else:
                 return self.play_level()
 
