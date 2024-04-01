@@ -155,13 +155,13 @@ class Level_Menu_Controller:
             goal = Search.iterative_deepening_search(state, 25)
         elif self.ai_type == "Greedy - Manhattan Distance":
             goal = Search.greedy_search(state, Heuristic.manhattan_distance)
-        elif self.ai_type == "Greedy - Free Electrons":
+        elif self.ai_type == "Greedy - Prioritize Free Electrons":
             goal = Search.greedy_search(state, Heuristic.prioritize_free_electrons)
         elif self.ai_type == "Greedy - Minimize Free Electrons":
             goal = Search.greedy_search(state, Heuristic.minimize_free_electrons)
         elif self.ai_type == "A* - Manhattan Distance":
             goal = Search.a_star_search(state, Heuristic.manhattan_distance)
-        elif self.ai_type == "A* - Free Electrons":
+        elif self.ai_type == "A* - Prioritize Free Electrons":
             goal = Search.a_star_search(state, Heuristic.prioritize_free_electrons)
         elif self.ai_type == "A* - Minimize Free Electrons":
             goal = Search.a_star_search(state, Heuristic.minimize_free_electrons)

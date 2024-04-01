@@ -83,14 +83,14 @@ class AI_Menu_Controller:
         elif self.model.selected == 4:
             self.ai = "Greedy - Manhattan Distance"
         elif self.model.selected == 5:
-            self.ai = "Greedy - Free Electrons"
+            self.ai = "Greedy - Prioritize Free Electrons"
         elif self.model.selected == 6:
-            self.ai = "Greedy - Still to Implement"
+            self.ai = "Greedy - Minimize Free Electrons"
         elif self.model.selected == 7:
             self.ai = "A* - Manhattan Distance"
         elif self.model.selected == 8:
-            self.ai = "A* - Free Electrons"
+            self.ai = "A* - Prioritize Free Electrons"
         elif self.model.selected == 9:
-            self.ai = "A* - Still to Implement"
+            self.ai = "A* - Minimize Free Electrons"
         elif self.model.selected == 10:
             return
