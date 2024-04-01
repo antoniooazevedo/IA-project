@@ -154,7 +154,6 @@ class Search:
                 node.add_child(child_node, move)
                 stack.append(child_node)
 
-
         return None
 
     def iterative_deepening_search(initial_state, depth_limit):
