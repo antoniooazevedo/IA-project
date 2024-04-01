@@ -4,22 +4,25 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Rules](#rules)
-- [Setup](#setup)
-- [How to Play](#how-to-play)
-  - [Controls](#controls)
-  - [Menus](#menus)
-- [Relevant Links](#relevant-links)
-- [Problem Formulation](#problem-formulation)
-  - [State Representation](#state-representation)
-  - [Initial State](#initial-state)
-  - [Objective Test](#objective-test)
-  - [Operators](#operators)
-- [Algorithms and Heuristics](#algorithms-and-heuristics)
-  - [Uninformed Algorithms](#uninformed-algorithms)
-  - [Informed Algorithms](#informed-algorithms)
-  - [Heuristics](#heuristics)
+- [Sokobond](#sokobond)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Rules](#rules)
+  - [Setup](#setup)
+  - [How to Play](#how-to-play)
+    - [Controls](#controls)
+    - [Menus](#menus)
+  - [Relevant Links](#relevant-links)
+  - [Problem Formulation](#problem-formulation)
+    - [State Representation](#state-representation)
+    - [Initial State](#initial-state)
+    - [Objective Test](#objective-test)
+    - [Operators](#operators)
+      - [Move Operator](#move-operator)
+  - [Algorithms and Heuristics](#algorithms-and-heuristics)
+    - [Uninformed Algorithms](#uninformed-algorithms)
+    - [Informed Algorithms](#informed-algorithms)
+    - [Heuristics](#heuristics)
 
 ## Introduction
 
@@ -27,9 +30,11 @@ Sokobond is a game created by Alan Hazelden and Lee Shang Lun and "is an elegant
 
 ## Rules
 
-In Sokobond, you control atoms on a grid with a clear objective: navigate them around and bond them with other atoms to create molecules. You have two main actions: moving in any of the four cardinal directions (up, down, left, right), or pushing nearby atoms in those same directions.
+In Sokobond, you control atoms on a grid with a clear objective: navigate them around and bond them with other atoms to create molecules. You have two main actions: moving in any of the four cardinal directions (`up`, `down`, `left`, `right`), or pushing nearby atoms in those same directions.
 
 To form a molecule, simply move your atom/molecule to a spot adjacent to another atom with available bonding connections. Both atoms will then lose one bonding connection and combine. The game is completed when all atoms are merged into one molecule and all bonding connections are utilized.
+
+If you are stuck in a level, you can ask the AI to solve it for you by pressing the `r` key. The AI will then calculate a sequence of moves to solve the level. If you want to solve the level yourself, you can press the `t` key to get a hint from the AI. The AI will suggest the next most strategic move to take.
 
 ## Setup
 
@@ -58,20 +63,19 @@ python3 sokobond.py
 
 - **Main Menu:** Upon starting the game, the main menu will appear. Here, it can be chosen to navigate to the "Choose AI" or "Play" menus;
 
-![alt text](docs/images/main_menu.png)
+![Main Menu](docs/images/main_menu.png)
 
 - **Choose AI Menu:** In this menu, the user can select the AI algorithm to be used to solve the level;
 
-![alt text](docs/images/choose_ai.png)
+![AI Menu](docs/images/choose_ai.png)
 
+- **Levels Menu:** In this menu, the user can select the level to be played;
 
-- **Play Menu:** In this menu, the user can select the level to be played;
-
-![alt text](docs/images/choose_level.png)
+![Levels Menu](docs/images/choose_level.png)
 
 Once the level is selected, the game will start and the user can start playing:
 
-![alt text](docs/images/game.png)
+![Game Running](docs/images/game.png)
 
 ## Relevant Links
 
