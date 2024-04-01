@@ -132,7 +132,13 @@ class Search:
             if node.depth != 0:
                 test_depth = node.parent.depth + 1 
 
-            if (node.state, test_depth) in visited:
+            isVisitedWithLowerDepth = False
+            for d in range(0, test_depth):
+                if (node.state, d) in visited:
+                    isVisitedWithLowerDepth = True
+                    break
+                
+            if isVisitedWithLowerDepth:
                 continue
 
             node.depth = test_depth
@@ -374,7 +380,7 @@ class Heuristic:
         for a in player.get_atoms():
             value -= a.get_electrons()
 
-        if value == 0:
+        if value == 10:
             return -1000
 
         return value

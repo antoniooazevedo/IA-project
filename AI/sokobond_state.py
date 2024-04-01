@@ -132,7 +132,13 @@ class Sokobond_State:
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("up")
-        return Sokobond_State(copy_level)
+
+        new_state = Sokobond_State(copy_level)
+        
+        if self.__eq__(new_state):
+            return None 
+        
+        return new_state
 
     def move_down(self):
         """
@@ -145,7 +151,12 @@ class Sokobond_State:
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("down")
-        return Sokobond_State(copy_level)
+        new_state = Sokobond_State(copy_level)
+        
+        if self.__eq__(new_state):
+            return None 
+        
+        return new_state
 
     def move_left(self):
         """
@@ -158,7 +169,12 @@ class Sokobond_State:
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("left")
-        return Sokobond_State(copy_level)
+        new_state = Sokobond_State(copy_level)
+        
+        if self.__eq__(new_state):
+            return None 
+        
+        return new_state
 
     def move_right(self):
         """
@@ -170,7 +186,12 @@ class Sokobond_State:
         copy_level = copy.deepcopy(self.level)
         controller = Level_Controller(copy_level)
         controller.player_move("right")
-        return Sokobond_State(copy_level)
+        new_state = Sokobond_State(copy_level)
+        
+        if self.__eq__(new_state):
+            return None 
+        
+        return new_state
 
     def child_states(self):
         """
