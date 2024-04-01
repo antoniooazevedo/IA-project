@@ -5,11 +5,35 @@ from MVC.Model.menu_model import Menu_Model
 
 
 class AI_Menu_Controller:
+    """
+    Class that represents the controller of the AI menu in the MVC pattern.
+    
+    It is responsible for handling the events of the AI menu, such as the player's movements.
+    It also checks if the player has selected an AI.
+    """
+    
     def __init__(self, menu_model: Menu_Model):
+        """
+        Initializes an AI_Menu_Controller object.
+        Sets the default AI to "A* - Manhattan Distance".
+        
+        Args:
+            menu_model (Menu_Model): The model of the AI menu.
+        """
         self.model = menu_model
         self.ai = "A* - Manhattan Distance"
 
     def handle_events(self):
+        """
+        Handles the events of the AI menu.
+        
+        The player can navigate through the AI menu using the arrow keys.
+        If the player presses the enter key, the selected AI is stored.
+        If the player presses the escape key, the player goes back to the main menu.
+        
+        Returns:
+            bool: True if the player is still in the AI menu, False otherwise.
+        """
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -44,6 +68,10 @@ class AI_Menu_Controller:
         return True
 
     def select_ia(self):
+        """
+        Selects the AI that the player has chosen.
+        """
+        
         if self.model.selected == 0:
             self.ai = "BFS"
         elif self.model.selected == 1:

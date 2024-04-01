@@ -4,6 +4,11 @@ from MVC.Model.Entities.atom_model import Atom_Model as Atom_Model
 from MVC.Model.Entities.wall_model import Wall_Model as Wall_Model
 from MVC.Model.Entities.connection_model import Connection_Model as Connection_Model
 
+"""
+n_connections represents the number of connections each atom can have. If the atom is uppercase, it is a field atom, and if it is lowercase, it is a player atom.
+image_paths represents the path to the image of each atom.
+BASE_LVL_PATH is the path to the levels folder.
+"""
 n_connections = {"H": 1, "O": 2, "N": 3, "C": 4, "h": 1, "o": 2, "n": 3, "c": 4}
 
 image_paths = {
@@ -22,7 +27,21 @@ BASE_LVL_PATH = "assets/levels/"
 
 
 class Level_Model:
+    """
+    Class that represents the model of a level in the MVC pattern.
+    
+    It is responsible for storing the level data, such as the matrix of the level and the molecules.
+    
+    It also controls if the player has won the level, if the player wants a tip, and if the AI should solve the level.
+    """
+    
     def __init__(self, level):
+        """
+        Initializes a Level_Model object.
+        
+        Args:
+            level (str): The name of the level file to load.
+        """
         self.won = False
         self.molecules = []
         self.scrape_level(level)
@@ -31,6 +50,19 @@ class Level_Model:
         self.solve_level_ai = False
 
     def scrape_level(self, level):
+        """
+        Scrape the level file and create the level matrix.
+        The level file is a text file where each character represents a different component of the level:
+        - " " represents an empty space.
+        - "#" represents a wall.
+        - Uppercase letters represent field atoms.
+        - Lowercase letters represent player atoms.
+        
+        When each component is read, we create the corresponding model and add it to the level matrix.
+        
+        Args:
+            level (str): The name of the level file to load.
+        """
 
         matrix = []
 
@@ -76,6 +108,13 @@ class Level_Model:
         self.matrix = matrix
 
     def get_player_molecule(self):
+        """
+        Getter for the player molecule.
+        
+        Returns:
+            Molecule_Model: The player molecule.
+        """
+        
         for molecule in self.molecules:
             if molecule.isPlayer:
                 return molecule

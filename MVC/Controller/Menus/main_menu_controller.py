@@ -8,8 +8,20 @@ from MVC.Controller.Menus.ai_menu_controller import AI_Menu_Controller
 
 
 class Main_Menu_Controller:
+    """
+    Class that represents the controller of the main menu in the MVC pattern.
+    """
 
     def __init__(self, menu_model: Menu_Model, screen):
+        """
+        Creates a Main_Menu_Controller object.
+        It also contains the used AI type, the level menu model, view and controller, and the AI menu model, view and controller.
+        Finally, it sets the on_level_menu and on_ai_menu flags to False, as the player is initially in the main menu.
+        
+        Args:
+            menu_model (Menu_Model): The model of the main menu.
+            screen (pygame.Surface): The screen of the game.
+        """
         self.model = menu_model
         self.screen = screen
 
@@ -58,7 +70,15 @@ class Main_Menu_Controller:
         self.ai_menu_controller = AI_Menu_Controller(self.ai_menu_model)
 
     def handle_events(self):
-
+        """
+        If the player is in the main menu, it handles the events of the main menu.
+        Else, it handles the events of the other menus.
+        
+        The user can navigate through the options using the arrow keys, and select an option using the return key.
+        Selecting the first option will take the player to the level menu.
+        Selecting the second option will take the player to the AI menu.
+        Selecting the third option will quit the game.
+        """
         if self.on_level_menu or self.on_ai_menu:
             self.other_menus()
 
@@ -103,7 +123,13 @@ class Main_Menu_Controller:
                         sys.exit()
 
     def other_menus(self):
-
+        """
+        If the player is in the level menu, it handles the events of the level menu.
+        Else, it handles the events of the AI menu.
+        
+        If the event handler of the menu returns True, the menu is drawn and the display is updated.
+        If the event handler of the menu returns False, the player is taken to this menu.
+        """
         if self.on_level_menu:
             if self.level_menu_controller.handle_events():
                 if not self.level_menu_controller.playing:
